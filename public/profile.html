@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Namma Party Props - Profile Desk</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 p-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-center mb-6 bg-white p-4 rounded-lg shadow-sm border">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800">Your Account Profile</h1>
+        <p id="user-display" class="text-xs text-indigo-600 font-mono mt-0.5"></p>
+      </div>
+      <div class="space-x-2">
+        <a href="index.html" class="text-sm bg-indigo-50 text-indigo-600 px-3 py-2 rounded font-medium hover:bg-indigo-100">Browse Catalog</a>
+        <a href="dashboard.html" class="text-sm bg-slate-100 text-slate-700 px-3 py-2 rounded font-medium hover:bg-slate-200">My Orders</a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <div class="space-y-6">
+        <div class="bg-white p-5 rounded-lg shadow-sm border">
+          <h2 class="text-lg font-bold text-gray-800 mb-3">Delivery Locations (Max 5)</h2>
+          <div id="address-list" class="space-y-2 mb-4"></div>
+          
+          <form id="address-form" onsubmit="addAddress(event)" class="space-y-3 pt-3 border-t">
+            <input type="text" id="new-address" placeholder="Enter party venue details or house address" required class="w-full text-sm border p-2 rounded">
+            <label class="flex items-center text-xs text-gray-600">
+              <input type="checkbox" id="address-default" class="mr-1.5"> Set as Default Delivery Destination
+            </label>
+            <button type="submit" class="w-full bg-indigo-600 text-white text-xs font-bold py-2 rounded hover:bg-indigo-700">Add Address</button>
+          </form>
+        </div>
+
+        <div class="bg-white p-5 rounded-lg shadow-sm border">
+          <h2 class="text-lg font-bold text-gray-800 mb-3">Change Security Password</h2>
+          <form onsubmit="changePassword(event)" class="space-y-3">
+            <input type="password" id="new-password" placeholder="Enter new strong password" required class="w-full text-sm border p-2 rounded">
+            <button type="submit" class="w-full bg-slate-800 text-white text-xs font-bold py-2 rounded hover:bg-slate-900">Update Password</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="bg-white p-5 rounded-lg shadow-sm border h-fit">
+        <h2 class="text-lg font-bold text-gray-800 mb-1">Family Circle Sub-Profiles</h2>
+        <p class="text-xs text-gray-400 mb-4">Add your family's upcoming birthdays for smart theme filtering.</p>
+        <div id="family-list" class="space-y-2 mb-4"></div>
+
+        <form onsubmit="addFamilyMember(event)" class="space-y-3 pt-3 border-t">
+          <div class="grid grid-cols-2 gap-2">
+            <input type="text" id="fam-name" placeholder="Name" required class="text-sm border p-2 rounded">
+            <select id="fam-gender" required class="text-sm border p-2 rounded text-gray-600">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <input type="date" id="fam-dob" required class="w-full text-sm border p-2 rounded text-gray-600">
+          <button type="submit" class="w-full bg-emerald-600 text-white text-xs font-bold py-2 rounded hover:bg-emerald-700">Add Family Member</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const phone = sessionStorage.getItem('activeUser') ? JSON.parse(sessionStorage.getItem('activeUser')).phone : null;
+    if (!phone) window.location.href = 'index.html';
+    document.getElementById('user-display').innerText = "Account Node Mobile: " + phone;
+
+    async function loadProfileData() {
+      // 1. Fetch Addresses
+      const addrRes = await fetch(`/api/profile/address/${phone}`);
+      const addresses = await addrRes.json();
+      const addrContainer = document.getElementById('address-list');
+      if(addresses.length === 0) {
+        addrContainer.innerHTML = `<p class="text-xs text-gray-400 italic">No delivery destinations saved yet.</p>`;
+      } else {
+        addrContainer.innerHTML = addresses.map(a => `
+          <div class="p-2 text-xs border rounded flex justify-between items-center ${a.is_default ? 'bg-indigo-50 border-indigo-200' : 'bg-gray-50'}">
+            <span class="truncate pr-2">${a.address_line}</span>
+            ${a.is_default ? '<span class="text-[10px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-bold uppercase shrink-0">Default</span>' : ''}
+          </div>
+        `).join('');
+      }
+
+      // 2. Fetch Family Sub-Profiles
+      const famRes = await fetch(`/api/profile/family/${phone}`);
+      const family = await famRes.json();
+      const famContainer = document.getElementById('family-list');
+      if(family.length === 0) {
+        famContainer.innerHTML = `<p class="text-xs text-gray-400 italic">No family member profiles added.</p>`;
+      } else {
+        famContainer.innerHTML = family.map(f => `
+          <div class="p-2 text-xs border rounded bg-slate-50 flex justify-between">
+            <span class="font-bold text-gray-700">${f.name} (${f.gender})</span>
+            <span class="text-gray-500 font-mono">🎂 ${f.dob}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    async function addAddress(e) {
+      e.preventDefault();
+      const address_line = document.getElementById('new-address').value;
+      const is_default = document.getElementById('address-default').checked ? 1 : 0;
+
+      const res = await fetch('/api/profile/address', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_phone: phone, address_line, is_default })
+      });
+      const data = await res.json();
+      if(res.ok) {
+        document.getElementById('address-form').reset();
+        loadProfileData();
+      } else {
+        alert(data.message); // Will flag if user breaches max 5 address count
+      }
+    }
+
+    async function addFamilyMember(e) {
+      e.preventDefault();
+      const name = document.getElementById('fam-name').value;
+      const gender = document.getElementById('fam-gender').value;
+      const dob = document.getElementById('fam-dob').value;
+
+      const res = await fetch('/api/profile/family', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_phone: phone, name, gender, dob })
+      });
+      if(res.ok) {
+        loadProfileData();
+        e.target.reset();
+      }
+    }
+
+    async function changePassword(e) {
+      e.preventDefault();
+      const newPassword = document.getElementById('new-password').value;
+      const res = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, newPassword })
+      });
+      if(res.ok) {
+        alert('Security metrics updated successfully!');
+        e.target.reset();
+      }
+    }
+
+    loadProfileData();
+  </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Namma Party Props - Inventory Registry Desk</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 p-6 min-h-screen font-sans">
+  <div class="max-w-5xl mx-auto space-y-6">
+    
+    <div class="flex justify-between items-center bg-slate-800 p-4 rounded-lg border border-slate-700 shadow-xl">
+      <div>
+        <h1 class="text-xl font-black text-emerald-400 tracking-tight">Ecosystem Inventory Registry</h1>
+        <p class="text-xs text-slate-400 font-mono">Scale Physical Stock Pools & Add Trending Market Props</p>
+      </div>
+      <div class="flex gap-2">
+        <a href="admin.html" class="text-xs bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-bold px-4 py-2 rounded transition">
+          ← Back to Admin Control Desk
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+<div class="bg-slate-800 p-4 rounded-lg border border-slate-700 shadow-md h-fit space-y-4">
+        <h2 class="text-sm font-bold text-slate-200 border-b border-slate-700 pb-2 flex items-center gap-2">
+          <span>✨</span> Deploy Trending Market Asset
+        </h2>
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="block text-slate-400 mb-1 font-bold">Prop Name Description</label>
+            <input type="text" id="add-name" placeholder="e.g., Pastel Metallic Balloon Cluster" class="w-full bg-slate-900 border border-slate-700 p-2 rounded text-white outline-none">
+          </div>
+          
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-slate-400 mb-1 font-bold">Asset Type</label>
+              <select id="add-type" class="w-full bg-slate-900 border border-slate-700 p-2 rounded text-white outline-none">
+                <option value="RENTAL">📦 RENTAL</option>
+                <option value="CONSUMABLE">🎈 CONSUMABLE</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1 font-bold">Category Group</label>
+              <input type="text" id="add-category" placeholder="e.g., Balloons, Backdrop" class="w-full bg-slate-900 border border-slate-700 p-2 rounded text-white outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-slate-400 mb-1 font-bold">Rental/Retail Fee (₹)</label>
+              <input type="number" id="add-price" placeholder="1500" class="w-full bg-slate-900 border border-slate-700 p-2 rounded text-white font-mono outline-none">
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1 font-bold">Warehouse Stock Qty</label>
+              <input type="number" id="add-stock" placeholder="50" class="w-full bg-slate-900 border border-slate-700 p-2 rounded text-white font-mono outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-slate-400 mb-1 font-bold">Theme Tag</label>
+              <input type="text" id="add-theme" placeholder="e.g., Birthday, Haldi" class="w-full bg-slate-900 border border-slate-700 p-2 rounded text-white outline-none">
+            </div>
+            <div>
+              <label class="block text-slate-400 mb-1 font-bold">Material Type</label>
+              <input type="text" id="add-material" placeholder="e.g., Latex, Metal" class="w-full bg-slate-900 border border-slate-700 p-2 rounded text-white outline-none">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-slate-400 mb-1 font-bold">Product Image Link / URL</label>
+            <input type="text" id="add-image" placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 p-2 rounded text-white font-mono text-[11px] outline-none">
+          </div>
+
+          <button onclick="submitNewAsset()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded transition shadow mt-2">
+            🚀 Inject to Live Storefront Catalog
+          </button>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2 bg-slate-800 p-4 rounded-lg border border-slate-700 shadow-md space-y-4">
+        <h2 class="text-sm font-bold text-slate-200 border-b border-slate-700 pb-2">
+          🏭 Active Warehouse Capital Pool Matrix
+        </h2>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead>
+              <tr class="text-slate-500 border-b border-slate-700/60 uppercase text-[10px] tracking-wider">
+                <th class="pb-2">Unique Code</th>
+                <th class="pb-2">Asset Description</th>
+                <th class="pb-2 w-24">Rental Fee</th>
+                <th class="pb-2 w-24">Total Stock Pool</th>
+                <th class="pb-2 text-right">Visibility Action</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-rows" class="divide-y divide-slate-700/40">
+              </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    async function fetchInventoryTable() {
+      const tbody = document.getElementById('inventory-rows');
+      try {
+        const res = await fetch('/api/admin/inventory');
+        const items = await res.json();
+        
+        tbody.innerHTML = items.map(item => `
+          <tr class="hover:bg-slate-800/50 ${item.is_active ? '' : 'opacity-40 bg-slate-950/20'}">
+            <td class="py-3 font-mono text-[11px] font-bold text-indigo-400">PROP-ASSET-${item.id}</td>
+            <td class="py-3 font-medium text-slate-200">
+              <p class="font-bold">${item.name}</p>
+              <span class="text-[10px] text-slate-500 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">${item.theme || 'General'}</span>
+            </td>
+            <td class="py-3">
+              <input type="number" id="price-${item.id}" value="${item.price}" onchange="updateAsset(${item.id}, ${item.is_active})" class="w-20 bg-slate-900 border border-slate-700 text-slate-300 rounded font-mono p-1 text-center focus:border-indigo-500 outline-none">
+            </td>
+            <td class="py-3">
+              <input type="number" id="stock-${item.id}" value="${item.max_inventory}" onchange="updateAsset(${item.id}, ${item.is_active})" class="w-16 bg-slate-900 border border-slate-700 text-emerald-400 font-bold rounded font-mono p-1 text-center focus:border-emerald-500 outline-none">
+            </td>
+            <td class="py-3 text-right">
+              <button onclick="updateAsset(${item.id}, ${item.is_active ? 0 : 1})" class="text-[11px] font-bold px-2.5 py-1 rounded border transition ${item.is_active ? 'bg-amber-950/40 text-amber-400 border-amber-900/60 hover:bg-amber-900/30' : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700'}">
+                ${item.is_active ? '📦 Archive / Repair' : '🟢 Set Live'}
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-rose-400">Failure mapping inventory pipelines: ${err.message}</td></tr>`;
+      }
+    }
+
+    async function submitNewAsset() {
+      const name = document.getElementById('add-name').value.trim();
+      const type = document.getElementById('add-type').value;
+      const category = document.getElementById('add-category').value.trim();
+      const price = document.getElementById('add-price').value;
+      const max_inventory = document.getElementById('add-stock').value;
+      const theme = document.getElementById('add-theme').value.trim();
+      const material = document.getElementById('add-material').value.trim();
+      const image_url = document.getElementById('add-image').value.trim();
+
+      if(!name || !price || !max_inventory) {
+        alert("Name, price, and stock levels are core parameters.");
+        return;
+      }
+
+      const res = await fetch('/api/admin/inventory', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, type, category, theme, age_group: 'Any', material, price, max_inventory, image_url })
+      });
+
+      if(res.ok) {
+        alert("Ecosystem item injected successfully!");
+        location.reload(); // Refresh viewport layout to display new parameters cleanly
+      } else {
+        alert("Asset injection failure.");
+      }
+    }
+
+    async function updateAsset(id, isActiveTarget) {
+      const price = document.getElementById(`price-${id}`).value;
+      const max_inventory = document.getElementById(`stock-${id}`).value;
+
+      const res = await fetch(`/api/admin/inventory/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ price, max_inventory, is_active: isActiveTarget })
+      });
+
+      if(res.ok) {
+        fetchInventoryTable();
+      } else {
+        alert("Failed to modify warehouse configuration item mapping.");
+      }
+    }
+
+    fetchInventoryTable();
+  </script>
+</body>
+</html>

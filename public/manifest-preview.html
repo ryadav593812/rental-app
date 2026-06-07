@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Namma Party Props - Print Dispatch Engine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @media print {
+      body { bg-color: #fff; color: #000; padding: 0; }
+      .no-print { display: none !important; }
+      .print-page-break { page-break-before: always; }
+      .print-card { border: 1px solid #000 !important; box-shadow: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 p-4 sm:p-8 font-sans antialiased text-gray-900">
+
+  <div class="max-w-4xl mx-auto mb-6 bg-white p-4 rounded-lg shadow-sm border border-slate-200 no-print flex flex-col sm:flex-row justify-between items-center gap-4">
+    <div>
+      <h1 class="text-base font-bold text-gray-800 flex items-center gap-1.5">
+        <span>📄</span> Document Dispatch Preview Console
+      </h1>
+      <p class="text-xs text-gray-500">Verify item allocation and security parameters before executing print routing.</p>
+    </div>
+    <div class="flex gap-2">
+      <button onclick="window.close()" class="text-xs bg-slate-200 text-slate-700 px-3 py-2 rounded font-semibold hover:bg-slate-300 transition">Close Window</button>
+      <button onclick="window.print()" class="text-xs bg-indigo-600 text-white px-4 py-2 rounded font-bold hover:bg-indigo-700 shadow-sm transition">🖨️ Execute Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div id="print-workspace" class="max-w-4xl mx-auto space-y-8"></div>
+
+  <script>
+    // Extract target parameter context tokens from url queries
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('orderId');
+
+    if (!orderId) {
+      document.getElementById('print-workspace').innerHTML = `<div class="p-8 text-center text-red-600 bg-white rounded border">Fatal Operational Mismatch: Missing order context reference target identifier tokens.</div>`;
+    } else {
+      hydrateManifestData();
+    }
+
+    async function hydrateManifestData() {
+      try {
+        // Fetch specific localized order context records direct from server instances
+        const res = await fetch(`/api/orders/details/${orderId}`);
+        if (!res.ok) throw new Error("Target data serialization rejected downstream.");
+        const order = await res.json();
+
+        let itemsArray = [];
+        try {
+          itemsArray = typeof order.items_json === 'string' ? JSON.parse(order.items_json) : order.items_json;
+        } catch(e) { itemsArray = []; }
+
+        // Compile total calculated security deposit metrics defaults (e.g., 50% value matrix placeholder fallback rules)
+        const computedSecurityDeposit = Math.round(order.total_price * 0.50);
+
+        const workspace = document.getElementById('print-workspace');
+        workspace.innerHTML = `
+          <div class="bg-white p-8 border rounded shadow-sm print-card space-y-6">
+            <div class="flex justify-between items-start border-b pb-4">
+              <div>
+                <h2 class="text-2xl font-black tracking-tight text-indigo-900">NAMMA PARTY PROPS</h2>
+                <p class="text-[11px] text-gray-500 max-w-xs font-medium">Bangalore's Premium Event Asset Ecosystem • Logistics Hub Desk</p>
+              </div>
+              <div class="text-right">
+                <span class="inline-block text-xs font-mono font-bold bg-slate-100 text-slate-800 px-2.5 py-1 rounded border">DOC TYPE: INVOICE / HANDOVER</span>
+                <p class="text-xs font-bold text-gray-700 mt-1.5">Order Identity: <span class="font-mono text-indigo-600">#${order.id}</span></p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs border-b pb-4">
+              <div>
+                <span class="text-gray-400 font-bold tracking-wider uppercase text-[9px] block">Client Phone Identity</span>
+                <p class="font-mono font-bold text-gray-800 mt-0.5">${order.customer_phone}</p>
+              </div>
+              <div>
+                <span class="text-gray-400 font-bold tracking-wider uppercase text-[9px] block">Target Delivery Window</span>
+                <p class="font-bold text-indigo-700 mt-0.5">🗓️ ${order.event_date}</p>
+              </div>
+              <div class="col-span-2 sm:col-span-1">
+                <span class="text-gray-400 font-bold tracking-wider uppercase text-[9px] block">Workflow Matrix State</span>
+                <p class="font-black text-emerald-700 uppercase mt-0.5">${order.status}</p>
+              </div>
+            </div>
+
+            <div>
+              <span class="text-gray-500 font-bold tracking-wider uppercase text-[10px] block mb-2">Itemized Resource Allocation Summary</span>
+              <table class="w-full text-xs text-left border">
+                <thead>
+                  <tr class="bg-slate-50 border-b text-gray-600 font-bold">
+                    <th class="p-2.5">Prop Asset Description</th>
+                    <th class="p-2.5 text-right w-24">Allocation Price</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y font-medium">
+                  ${itemsArray.map(item => `
+                    <tr>
+                      <td class="p-2.5 text-gray-800 font-bold">• ${item.name}</td>
+                      <td class="p-2.5 text-right font-mono text-gray-600">₹${item.price}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+
+            ${order.admin_notes ? `
+              <div class="bg-slate-50 p-3 rounded border text-xs text-slate-700">
+                <span class="font-bold block text-[10px] text-slate-500 uppercase tracking-wide mb-0.5">Active Dispatch Remarks / Instructions:</span>
+                <p class="italic font-medium">${order.admin_notes}</p>
+              </div>
+            ` : ''}
+
+            <div class="bg-indigo-900 text-white p-4 rounded-lg flex justify-between items-center text-xs">
+              <div>
+                <p class="opacity-75">Calculated Security Deposit Matrix (Refundable): <span class="font-mono font-bold">₹${computedSecurityDeposit}</span></p>
+                <p class="text-[10px] text-indigo-200 mt-0.5 italic">* Collected upon site handover to cover structural inventory adjustments.</p>
+              </div>
+              <div class="text-right border-l pl-4 border-indigo-700 shrink-0">
+                <span class="opacity-70 text-[9px] uppercase font-bold tracking-wider block">Consolidated Base Invoice</span>
+                <span class="text-xl font-black font-mono">₹${order.total_price}</span>
+              </div>
+            </div>
+
+            <div class="pt-8 border-t border-dashed grid grid-cols-2 gap-8 text-[11px] text-gray-600">
+              <div class="space-y-12">
+                <p class="font-medium">Acknowledged by (Client Representative Signature Line):</p>
+                <div class="border-b border-gray-400 w-full"></div>
+                <p class="text-[9px] text-gray-400 italic font-mono">Date Counter: ____ / ____ / 2026</p>
+              </div>
+              <div class="space-y-12 text-right flex flex-col justify-between items-end">
+                <p class="font-medium">Authorized Hub Supervisor Release Sign-off Stamp:</p>
+                <div class="border-b border-gray-400 w-48"></div>
+                <p class="text-[9px] text-gray-400 italic font-mono">Namma Props Ecosystem Validation Node Code</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-8 border rounded shadow-sm print-card space-y-6 print-page-break">
+            <div class="flex justify-between items-center border-b pb-4">
+              <div>
+                <h3 class="text-lg font-black tracking-tight text-slate-800">📦 STRUCTURAL WAREHOUSE LOADING MANIFEST</h3>
+                <p class="text-[11px] text-gray-500">Internal Order Fulfillment Checklist Desk • Fleet Routing Control Layout</p>
+              </div>
+              <span class="text-xs font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">DOC ID: #${order.id}-WH</span>
+            </div>
+
+            <div class="space-y-3">
+              <span class="text-slate-500 font-bold tracking-wider uppercase text-[10px] block">Warehouse Assembly Load-out Sign-off Matrix</span>
+              <div class="border rounded divide-y text-xs font-medium text-gray-700">
+                ${itemsArray.map(item => `
+                  <div class="p-3 flex items-center justify-between hover:bg-slate-50">
+                    <div class="flex items-center gap-3">
+                      <input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                      <div>
+                        <p class="font-bold text-gray-900">${item.name}</p>
+                        <p class="text-[10px] text-gray-400 font-mono">Asset ID Reference Node Key: PROP-VAL-${item.id}</p>
+                      </div>
+                    </div>
+                    <span class="text-[10px] border px-2 py-0.5 rounded bg-slate-50 text-slate-600 uppercase font-bold tracking-wider font-mono">Qty: 1 Unit</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <span class="text-slate-500 font-bold tracking-wider uppercase text-[10px] block">Transit / Structural Quality Control Logging Desk</span>
+              <table class="w-full text-xs text-left border border-gray-200">
+                <thead class="bg-slate-50 border-b font-bold text-gray-600">
+                  <tr>
+                    <th class="p-2 w-1/3">Ecosystem Asset</th>
+                    <th class="p-2">Dispatch Release State (Pre-Event)</th>
+                    <th class="p-2">Return Processing Review (Post-Event)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y font-mono text-[10px] text-gray-400">
+                  ${itemsArray.map(item => `
+                    <tr>
+                      <td class="p-2 border-r font-sans font-bold text-gray-700 text-xs">${item.name}</td>
+                      <td class="p-2 border-r italic">□ Stable  □ Scratches  □ Paint Wear</td>
+                      <td class="p-2 italic">□ Returned Safe  □ Damaged  □ Missing</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 text-[10px] font-medium border-t pt-4 text-gray-500">
+              <div>
+                <p class="font-bold text-gray-700 mb-1">1. Loading Validation</p>
+                <p>Signature: ______________</p>
+                <p class="mt-1">Timestamp: ____________</p>
+              </div>
+              <div>
+                <p class="font-bold text-gray-700 mb-1">2. Driver Transit Log</p>
+                <p>Vehicle Tag: ____________</p>
+                <p class="mt-1">Driver Name: ___________</p>
+              </div>
+              <div>
+                <p class="font-bold text-gray-700 mb-1">3. Returns Validation Desk</p>
+                <p>Deposit Status: _________</p>
+                <p class="mt-1">Inspector Sign-off: ______</p>
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        document.getElementById('print-workspace').innerHTML = `<div class="p-8 text-center text-red-600 bg-white rounded border">Data Fetch Failure: Encountered an engine error during dynamic object compilation. Details: ${err.message}</div>`;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Namma Party Props - Premium Event Asset Ecosystem</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans relative overflow-x-hidden">
+
+  <header class="bg-indigo-900 text-white p-4 shadow-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight">Namma Party Props</h1>
+        <p class="text-[11px] text-indigo-200">Bangalore's Premium Event Asset Ecosystem</p>
+      </div>
+      <div id="auth-panel" class="space-x-2 flex items-center"></div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+    <!-- FILTERS -->
+    <div class="space-y-4 lg:col-span-1 bg-white p-4 border rounded shadow-sm h-fit">
+      <h2 class="text-base font-bold text-gray-800 border-b pb-2 mb-2">Refine Prop Catalog</h2>
+
+      <div>
+        <label class="block text-xs font-bold text-red-600 mb-1">Target Event Date *</label>
+        <input type="date" id="filter-date" onchange="onDateChange()" class="w-full text-xs border p-2 rounded focus:ring-1 focus:ring-indigo-500 font-medium">
+        <p id="date-warning" class="text-[10px] text-gray-400 mt-1">Select date to unlock real-time inventory.</p>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 mb-1">Theme Category</label>
+        <select id="filter-theme" onchange="applyFilters()" class="w-full text-xs border p-2 rounded text-gray-600 bg-gray-50">
+          <option value="Any">All Themes</option>
+          <option value="Anniversary">Anniversary</option>
+          <option value="Haldi">Traditional Haldi</option>
+          <option value="Jungle">Jungle Safari</option>
+          <option value="Birthday">Birthday Party</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 mb-1">Category</label>
+        <select id="filter-category" onchange="applyFilters()" class="w-full text-xs border p-2 rounded text-gray-600 bg-gray-50">
+          <option value="Any">All Categories</option>
+          <option value="Backdrop">Backdrop Frames</option>
+          <option value="Signage">LED & Signage</option>
+          <option value="Props">Table Props & Vases</option>
+          <option value="Balloons">Balloons</option>
+          <option value="Return Gifts">Return Gifts</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 mb-1">Material</label>
+        <select id="filter-material" onchange="applyFilters()" class="w-full text-xs border p-2 rounded text-gray-600 bg-gray-50">
+          <option value="Any">All Materials</option>
+          <option value="Metal">Metallic</option>
+          <option value="Fabric">Fabric</option>
+          <option value="Wood">Wood</option>
+          <option value="Neon">Neon</option>
+          <option value="Rubber">Rubber/Latex</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 mb-1">Age Group</label>
+        <select id="filter-age" onchange="applyFilters()" class="w-full text-xs border p-2 rounded text-gray-600 bg-gray-50">
+          <option value="Any">All Ages</option>
+          <option value="Kids">Kids (0–12)</option>
+          <option value="Adults">Adults</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- CATALOG -->
+    <div class="lg:col-span-2">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-gray-800 tracking-tight">Available Props</h2>
+        <span id="active-count" class="text-xs bg-indigo-100 text-indigo-700 font-bold px-2.5 py-0.5 rounded-full">All Items</span>
+      </div>
+      <div id="catalog" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
+
+    <!-- CART -->
+    <div class="bg-white p-4 border rounded shadow-sm h-fit lg:col-span-1">
+      <h2 class="text-lg font-bold text-gray-800 border-b pb-2 mb-3">Your Cart</h2>
+      <div id="cart-items" class="space-y-2 text-xs text-gray-600 mb-4 min-h-[80px]">
+        <span class="text-gray-400 italic">Add items from the catalog...</span>
+      </div>
+      <div class="border-t pt-3 flex justify-between items-center mb-4">
+        <span class="text-sm font-semibold text-gray-700">Total:</span>
+        <span id="cart-total" class="text-lg font-bold text-indigo-600">₹0</span>
+      </div>
+      <button onclick="submitOrder()" class="w-full bg-indigo-600 text-white font-bold py-2 rounded hover:bg-indigo-700 text-sm shadow transition">
+        Submit for Admin Review
+      </button>
+    </div>
+  </main>
+
+  <!-- REGISTER MODAL -->
+  <div id="register-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded p-6 max-w-sm w-full space-y-4">
+      <h3 class="text-lg font-bold text-gray-800">Create Account</h3>
+      <div class="space-y-2 text-xs">
+        <div><label class="block text-gray-600 font-medium mb-1">Full Name</label>
+          <input type="text" id="reg-name" class="w-full border p-2 rounded outline-none focus:ring-1 focus:ring-indigo-500"></div>
+        <div><label class="block text-gray-600 font-medium mb-1">WhatsApp Number</label>
+          <input type="text" id="reg-phone" class="w-full border p-2 rounded outline-none focus:ring-1 focus:ring-indigo-500"></div>
+        <div><label class="block text-gray-600 font-medium mb-1">Email</label>
+          <input type="email" id="reg-email" class="w-full border p-2 rounded outline-none focus:ring-1 focus:ring-indigo-500"></div>
+        <div><label class="block text-gray-600 font-medium mb-1">Date of Birth</label>
+          <input type="date" id="reg-dob" class="w-full border p-2 rounded outline-none focus:ring-1 focus:ring-indigo-500"></div>
+        <div><label class="block text-gray-600 font-medium mb-1">Password</label>
+          <input type="password" id="reg-pass" class="w-full border p-2 rounded outline-none focus:ring-1 focus:ring-indigo-500"></div>
+      </div>
+      <div class="flex justify-end space-x-2">
+        <button onclick="toggleModal('register-modal', false)" class="text-xs bg-gray-200 px-4 py-2 rounded font-semibold text-gray-600">Cancel</button>
+        <button onclick="handleRegister()" class="text-xs bg-indigo-600 text-white px-4 py-2 rounded font-bold hover:bg-indigo-700">Register</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESET MODAL -->
+  <div id="reset-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded p-6 max-w-sm w-full space-y-4">
+      <h3 class="text-lg font-bold text-gray-800">Reset Password</h3>
+      <div class="space-y-2 text-xs">
+        <div><label class="block text-gray-600 font-medium mb-1">Registered Phone</label>
+          <input type="text" id="reset-phone" class="w-full border p-2 rounded"></div>
+        <div><label class="block text-gray-600 font-medium mb-1">New Password</label>
+          <input type="password" id="reset-new-pass" class="w-full border p-2 rounded"></div>
+      </div>
+      <div class="flex justify-end space-x-2">
+        <button onclick="toggleModal('reset-modal', false)" class="text-xs bg-gray-200 px-4 py-2 rounded font-semibold text-gray-600">Cancel</button>
+        <button onclick="handleResetPassword()" class="text-xs bg-indigo-600 text-white px-4 py-2 rounded font-bold hover:bg-indigo-700">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE DRAWER -->
+  <div id="profile-drawer" class="hidden fixed inset-y-0 right-0 w-full sm:w-[460px] bg-slate-900 border-l border-slate-800 shadow-2xl z-50 p-5 flex flex-col justify-between overflow-y-auto">
+    <div class="space-y-5 text-xs text-slate-300">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <div>
+          <h3 class="text-sm font-black text-slate-200">Account Settings</h3>
+          <p class="text-[10px] text-slate-500 font-mono" id="profile-node-label"></p>
+        </div>
+        <button onclick="toggleProfileDrawer(false)" class="text-slate-500 hover:text-slate-300 font-bold text-base px-2">✕</button>
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex justify-between items-center">
+          <span class="text-[10px] uppercase font-bold tracking-wider text-indigo-400">🏠 Saved Addresses (Max 5)</span>
+          <button onclick="addAddressRow()" class="text-[10px] text-indigo-400 hover:underline font-bold">+ Add</button>
+        </div>
+        <div id="address-matrix-stack" class="space-y-2"></div>
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex justify-between items-center">
+          <span class="text-[10px] uppercase font-bold tracking-wider text-emerald-400">🎉 Family Profiles</span>
+          <button onclick="addFamilyRow()" class="text-[11px] text-indigo-400 hover:underline">+ Add Member</button>
+        </div>
+        <p class="text-[10px] text-slate-500 italic">Track birthdays for smart theme suggestions.</p>
+        <div id="family-members-stack" class="space-y-2 max-h-48 overflow-y-auto border border-slate-800 p-2 bg-slate-950/40 rounded"></div>
+      </div>
+
+      <div class="space-y-2 border-t border-slate-800/60 pt-3">
+        <span class="text-[10px] uppercase font-bold tracking-wider text-amber-400">🔐 Change Password</span>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-slate-500 mb-0.5">New Password</label>
+            <input type="password" id="profile-new-pass" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 p-2 rounded outline-none focus:border-amber-500 text-slate-200">
+          </div>
+          <div>
+            <label class="block text-slate-500 mb-0.5">Confirm Password</label>
+            <input type="password" id="profile-confirm-pass" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 p-2 rounded outline-none focus:border-amber-500 text-slate-200">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-800 pt-3 mt-4 flex justify-end gap-2 text-xs">
+      <button onclick="toggleProfileDrawer(false)" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded font-semibold">Close</button>
+      <button onclick="saveUserProfileSettings()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded font-bold shadow">Save Changes</button>
+    </div>
+  </div>
+
+<script>
+  // =========================================================================
+  // STATE
+  // =========================================================================
+  let masterCatalog = [];
+  let activeCarouselIndices = {};
+  // cart: array of { id, name, price, quantity }
+  let cart = [];
+  let currentUserData = null;
+  let loggedInPhone = null;
+
+  const todayStr = new Date().toISOString().split('T')[0];
+  document.getElementById('filter-date').min = todayStr;
+
+  function syncSession() {
+    const token = sessionStorage.getItem('activeUser');
+    if (token) {
+      try {
+        currentUserData = JSON.parse(token);
+        loggedInPhone = currentUserData.phone || null;
+      } catch(e) { currentUserData = null; loggedInPhone = null; }
+    }
+  }
+  syncSession();
+
+  // =========================================================================
+  // AUTH PANEL
+  // =========================================================================
+  function renderAuthPanel() {
+    const panel = document.getElementById('auth-panel');
+    if (loggedInPhone) {
+      panel.innerHTML = `
+        <div class="flex items-center space-x-3">
+          <button onclick="toggleProfileDrawer(true)" class="flex items-center gap-1.5 bg-indigo-800 hover:bg-indigo-700 text-xs font-bold border border-indigo-700 text-indigo-200 px-3 py-1.5 rounded transition">
+            👤 ${currentUserData?.name || 'Account'} / Settings
+          </button>
+          <a href="dashboard.html" class="text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded transition shadow-sm">My Orders</a>
+          <button onclick="handleLogout()" class="text-xs text-indigo-300 hover:text-white underline">Sign Out</button>
+        </div>`;
+    } else {
+      panel.innerHTML = `
+        <input type="text" id="login-phone" placeholder="Mobile Number" class="text-xs text-gray-800 p-1.5 rounded w-32 focus:outline-none">
+        <input type="password" id="login-pass" placeholder="Password" class="text-xs text-gray-800 p-1.5 rounded w-28 focus:outline-none">
+        <button onclick="handleLogin()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1.5 rounded font-bold">Sign In</button>
+        <button onclick="toggleModal('register-modal', true)" class="border border-indigo-400 hover:bg-indigo-800 text-white text-xs px-2.5 py-1.5 rounded">Register</button>
+        <button onclick="toggleModal('reset-modal', true)" class="text-[10px] text-indigo-300 underline hover:text-white whitespace-nowrap">Forgot PIN?</button>`;
+    }
+  }
+
+  function toggleModal(id, show) {
+    document.getElementById(id)?.classList.toggle('hidden', !show);
+  }
+
+  async function handleLogin() {
+    const phone = document.getElementById('login-phone')?.value.trim();
+    const password = document.getElementById('login-pass')?.value.trim();
+    if (!phone || !password) return alert("Enter phone and password.");
+
+    const res = await fetch('/api/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, password })
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      sessionStorage.setItem('activeUser', JSON.stringify(data.user));
+      if (data.user.role === 'admin') {
+        window.location.href = 'admin.html';
+      } else {
+        location.reload();
+      }
+    } else {
+      alert(data.message || 'Login failed.');
+    }
+  }
+
+  async function handleRegister() {
+    const name = document.getElementById('reg-name').value.trim();
+    const phone = document.getElementById('reg-phone').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const dob = document.getElementById('reg-dob').value;
+    const pass = document.getElementById('reg-pass').value.trim();
+
+    if (!name || !phone || !email || !dob || !pass) return alert("All fields are required.");
+
+    const res = await fetch('/api/auth/register', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, email, dob, password: pass })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      alert('Registration successful! Please sign in.');
+      toggleModal('register-modal', false);
+    } else {
+      alert(data.message);
+    }
+  }
+
+  async function handleResetPassword() {
+    const phone = document.getElementById('reset-phone').value.trim();
+    const newPassword = document.getElementById('reset-new-pass').value.trim();
+    if (!phone || !newPassword) return alert("Both fields required.");
+
+    const res = await fetch('/api/auth/reset-password', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, newPassword })
+    });
+    const data = await res.json();
+    if (res.ok) { alert('Password reset! Please sign in.'); toggleModal('reset-modal', false); }
+    else alert(data.message);
+  }
+
+  function handleLogout() {
+    sessionStorage.removeItem('activeUser');
+    currentUserData = null; loggedInPhone = null;
+    location.reload();
+  }
+
+  // =========================================================================
+  // DATE FILTER — decoupled from applyFilters to break infinite loop
+  // =========================================================================
+  function onDateChange() {
+    const date = document.getElementById('filter-date').value;
+    const warning = document.getElementById('date-warning');
+
+    if (date === todayStr) {
+      alert("Same-day delivery is unavailable. Please select a future date.");
+      document.getElementById('filter-date').value = '';
+      warning.innerText = "⚠️ Same-day slots are locked.";
+      warning.className = "text-[10px] text-red-500 font-bold mt-1";
+      return;
+    }
+    if (date) {
+      warning.innerText = `✓ Showing inventory for ${date}`;
+      warning.className = "text-[10px] text-emerald-600 font-semibold mt-1";
+    } else {
+      warning.innerText = "Select date to unlock real-time inventory.";
+      warning.className = "text-[10px] text-gray-400 mt-1";
+    }
+    // Always reload catalog fresh from server when date changes
+    loadCatalog();
+  }
+
+  async function loadCatalog() {
+    const date = document.getElementById('filter-date').value;
+    const url = date ? `/api/items?date=${date}` : '/api/items';
+    try {
+      const res = await fetch(url);
+      masterCatalog = await res.json();
+      applyFilters();
+    } catch(err) {
+      console.error("Catalog load error:", err);
+    }
+  }
+
+  // applyFilters only filters the in-memory masterCatalog — no fetch here
+  function applyFilters() {
+    const theme = document.getElementById('filter-theme').value;
+    const category = document.getElementById('filter-category').value;
+    const material = document.getElementById('filter-material').value;
+    const age = document.getElementById('filter-age').value;
+
+    const filtered = masterCatalog.filter(item => {
+      if (theme !== 'Any' && item.theme !== theme && item.theme !== 'Any') return false;
+      if (category !== 'Any' && item.category !== category) return false;
+      if (material !== 'Any' && item.material !== material) return false;
+      if (age !== 'Any' && item.age_group !== 'Any' && item.age_group !== age) return false;
+      return true;
+    });
+
+    document.getElementById('active-count').innerText = `${filtered.length} item${filtered.length !== 1 ? 's' : ''}`;
+    renderCatalog(filtered);
+  }
+
+  function renderCatalog(items) {
+    const container = document.getElementById('catalog');
+    if (items.length === 0) {
+      container.innerHTML = `<div class="col-span-2 text-center p-8 bg-gray-100 rounded border border-dashed text-gray-500 text-sm">No items match your filters.</div>`;
+      return;
+    }
+
+    container.innerHTML = items.map(item => {
+      const images = (() => { try { return JSON.parse(item.images_json); } catch(e) { return []; } })();
+      const itemId = item.id;
+      if (activeCarouselIndices[itemId] === undefined) activeCarouselIndices[itemId] = 0;
+
+      const cartEntry = cart.find(c => c.id === itemId);
+      const cartQty = cartEntry ? cartEntry.quantity : 0;
+      const avail = item.available_inventory;
+
+      let stockBadge = '';
+      if (avail === 0) {
+        stockBadge = `<span class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded font-bold">🚨 SOLD OUT</span>`;
+      } else if (avail <= 3) {
+        stockBadge = `<span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold animate-pulse">⚠️ Only ${avail} left</span>`;
+      } else if (avail <= 5) {
+        stockBadge = `<span class="text-[10px] bg-orange-100 text-orange-800 px-2 py-0.5 rounded font-bold">Low stock: ${avail}</span>`;
+      } else {
+        stockBadge = `<span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded">Stock: ${avail}</span>`;
+      }
+
+      const arrows = images.length > 1 ? `
+        <button onclick="shiftCarousel(${itemId}, -1, ${images.length})" class="absolute left-1 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full px-1.5 text-sm hover:bg-black/90 z-10 select-none">‹</button>
+        <button onclick="shiftCarousel(${itemId}, 1, ${images.length})" class="absolute right-1 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full px-1.5 text-sm hover:bg-black/90 z-10 select-none">›</button>` : '';
+
+      const scarcityBadge = (item.type === 'RENTAL' && item.max_inventory <= 15)
+        ? `<div class="absolute top-2 right-2 bg-rose-600 text-white font-bold text-[10px] uppercase px-2 py-0.5 rounded shadow z-10 animate-pulse">🔥 High Demand</div>` : '';
+
+      // Cart controls
+      let cartControl = '';
+      if (avail === 0) {
+        cartControl = `<button disabled class="bg-gray-200 text-gray-400 cursor-not-allowed font-bold py-1 px-3 rounded text-xs">Sold Out</button>`;
+      } else if (cartQty > 0) {
+        cartControl = `
+          <div class="flex items-center gap-2">
+            <button onclick="changeQty(${itemId}, -1)" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold w-7 h-7 rounded text-sm">−</button>
+            <span class="font-bold text-indigo-600 text-sm w-4 text-center">${cartQty}</span>
+            <button onclick="changeQty(${itemId}, 1, ${avail})" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold w-7 h-7 rounded text-sm" ${cartQty >= avail ? 'disabled class="opacity-40 cursor-not-allowed"' : ''}>+</button>
+          </div>`;
+      } else {
+        cartControl = `<button onclick="addToCart(${itemId}, '${item.name.replace(/'/g, "\\'")}', ${item.price}, ${avail})" class="bg-indigo-600 text-white font-bold py-1 px-3 rounded hover:bg-indigo-700 text-xs shadow-sm transition">+ Add</button>`;
+      }
+
+      return `
+        <div class="bg-white border rounded shadow-sm flex flex-col justify-between overflow-hidden relative group">
+          ${scarcityBadge}
+          <div class="h-44 w-full bg-slate-100 relative overflow-hidden">
+            <img id="img-node-${itemId}" src="${images[0] || ''}" data-images='${item.images_json}' class="h-full w-full object-cover transition-all duration-300">
+            ${arrows}
+          </div>
+          <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="mb-1.5 flex gap-1 flex-wrap">
+                <span class="text-[9px] uppercase font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">${item.category}</span>
+                <span class="text-[9px] uppercase font-bold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-600">${item.theme}</span>
+                <span class="text-[9px] uppercase font-bold px-1.5 py-0.5 rounded ${item.type === 'RENTAL' ? 'bg-emerald-50 text-emerald-700' : 'bg-purple-50 text-purple-700'}">${item.type}</span>
+              </div>
+              <h3 class="font-bold text-gray-800 text-sm leading-tight">${item.name}</h3>
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <p class="text-indigo-600 font-extrabold text-sm">₹${item.price}<span class="text-[10px] text-gray-400 font-normal ml-1">${item.type === 'RENTAL' ? '/ 3 days' : 'buy'}</span></p>
+                ${stockBadge}
+              </div>
+              <div class="pt-2 border-t flex justify-end">${cartControl}</div>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // =========================================================================
+  // CAROUSEL
+  // =========================================================================
+  function shiftCarousel(itemId, dir, len) {
+    activeCarouselIndices[itemId] = ((activeCarouselIndices[itemId] || 0) + dir + len) % len;
+    const img = document.getElementById(`img-node-${itemId}`);
+    if (img) {
+      const images = JSON.parse(img.dataset.images);
+      img.src = images[activeCarouselIndices[itemId]];
+    }
+  }
+
+  // =========================================================================
+  // CART — quantity-aware
+  // =========================================================================
+  function addToCart(id, name, price, maxAvail) {
+    const existing = cart.find(c => c.id === id);
+    if (existing) {
+      if (existing.quantity < maxAvail) existing.quantity++;
+    } else {
+      cart.push({ id, name, price, quantity: 1 });
+    }
+    renderCart();
+    applyFilters(); // re-render catalog to update controls
+  }
+
+  function changeQty(id, delta, maxAvail) {
+    const idx = cart.findIndex(c => c.id === id);
+    if (idx === -1) return;
+    cart[idx].quantity += delta;
+    if (maxAvail !== undefined && cart[idx].quantity > maxAvail) cart[idx].quantity = maxAvail;
+    if (cart[idx].quantity <= 0) cart.splice(idx, 1);
+    renderCart();
+    applyFilters();
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(c => c.id !== id);
+    renderCart();
+    applyFilters();
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cart-items');
+    const totalLabel = document.getElementById('cart-total');
+    if (cart.length === 0) {
+      container.innerHTML = `<span class="text-gray-400 italic">Add items from the catalog...</span>`;
+      totalLabel.innerText = "₹0";
+      return;
+    }
+    container.innerHTML = cart.map(item => `
+      <div class="flex justify-between items-center bg-gray-50 p-2 border rounded">
+        <div class="flex-1 min-w-0 mr-2">
+          <p class="font-medium truncate text-gray-800">${item.name}</p>
+          <p class="text-gray-400">₹${item.price} × ${item.quantity}</p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="font-bold text-indigo-600">₹${item.price * item.quantity}</span>
+          <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-600 font-bold">×</button>
+        </div>
+      </div>`).join('');
+
+    const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    totalLabel.innerText = "₹" + total;
+  }
+
+  // =========================================================================
+  // ORDER SUBMISSION
+  // =========================================================================
+  async function submitOrder() {
+    syncSession();
+    if (!loggedInPhone) return alert("Please sign in to place an order.");
+    if (cart.length === 0) return alert("Your cart is empty.");
+
+    const date = document.getElementById('filter-date').value;
+    if (!date) return alert("Please select your event date before submitting.");
+
+    const items = cart.flatMap(i => Array(i.quantity).fill({ id: i.id, name: i.name, price: i.price }));
+    const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+    const res = await fetch('/api/orders', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ customer_phone: loggedInPhone, items, total_price: total, event_date: date })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      alert('Order placed! Redirecting to your orders...');
+      cart = [];
+      window.location.href = 'dashboard.html';
+    } else {
+      alert('Order failed: ' + data.message);
+    }
+  }
+
+  // =========================================================================
+  // PROFILE DRAWER
+  // =========================================================================
+  async function toggleProfileDrawer(show) {
+    const drawer = document.getElementById('profile-drawer');
+    drawer.classList.toggle('hidden', !show);
+    if (!show) return;
+
+    syncSession();
+    if (!currentUserData) return;
+    document.getElementById('profile-node-label').innerText = `Phone: ${loggedInPhone}`;
+
+    const addrStack = document.getElementById('address-matrix-stack');
+    const famStack = document.getElementById('family-members-stack');
+    addrStack.innerHTML = '<p class="text-xs text-slate-500 animate-pulse">Loading...</p>';
+    famStack.innerHTML = '<p class="text-xs text-slate-500 animate-pulse">Loading...</p>';
+
+    try {
+      const [addrRes, famRes] = await Promise.all([
+        fetch(`/api/profile/address/${loggedInPhone}`),
+        fetch(`/api/profile/family/${loggedInPhone}`)
+      ]);
+      const dbAddresses = await addrRes.json();
+      const dbFamily = await famRes.json();
+
+      addrStack.innerHTML = '';
+      if (dbAddresses.length > 0) {
+        dbAddresses.forEach(a => addAddressRow(a.address_line, a.is_default === 1));
+      } else {
+        addAddressRow('', true);
+      }
+
+      famStack.innerHTML = '';
+      if (dbFamily.length > 0) {
+        dbFamily.forEach(m => addFamilyRow(m.name, m.gender, m.dob));
+      } else {
+        famStack.innerHTML = `<p class="text-center py-2 text-slate-600 italic text-[11px]">No family profiles recorded.</p>`;
+      }
+    } catch(err) {
+      addrStack.innerHTML = '';
+      addAddressRow('', true);
+    }
+  }
+
+  function addAddressRow(val = '', isDefault = false) {
+    const stack = document.getElementById('address-matrix-stack');
+    if (stack.querySelectorAll('.addr-row').length >= 5) {
+      alert("Max 5 addresses allowed."); return;
+    }
+    const div = document.createElement('div');
+    div.className = "flex gap-2 items-center addr-row";
+    div.innerHTML = `
+      <button type="button" onclick="setDefaultAddr(this)" class="default-star text-sm p-1 transition-all ${isDefault ? 'text-amber-400' : 'text-slate-600 hover:text-amber-300'}">
+        ${isDefault ? '★' : '☆'}
+      </button>
+      <textarea rows="1" placeholder="Full address..." class="w-full bg-slate-950 border border-slate-800 p-2 rounded text-slate-200 text-xs outline-none focus:border-indigo-500">${val}</textarea>
+      <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 font-bold text-xs px-1">✕</button>`;
+    stack.appendChild(div);
+  }
+
+  function setDefaultAddr(btn) {
+    document.querySelectorAll('.default-star').forEach(s => { s.innerText = '☆'; s.className = 'default-star text-sm p-1 transition-all text-slate-600 hover:text-amber-300'; });
+    btn.innerText = '★'; btn.className = 'default-star text-sm p-1 transition-all text-amber-400';
+  }
+
+  function addFamilyRow(name = '', gender = 'Other', dob = '') {
+    const stack = document.getElementById('family-members-stack');
+    const empty = stack.querySelector('#fam-empty');
+    if (empty) empty.remove();
+    const div = document.createElement('div');
+    div.className = "flex gap-2 items-center family-row mb-2";
+    div.innerHTML = `
+      <input type="text" placeholder="Name" value="${name}" class="w-1/3 bg-slate-950 border border-slate-800 p-1.5 rounded text-xs text-slate-200 outline-none">
+      <select class="w-1/4 bg-slate-950 border border-slate-800 p-1.5 rounded text-xs text-slate-200 outline-none">
+        <option ${gender==='Male'?'selected':''}>Male</option>
+        <option ${gender==='Female'?'selected':''}>Female</option>
+        <option ${gender==='Other'?'selected':''}>Other</option>
+      </select>
+      <input type="date" value="${dob}" class="w-1/3 bg-slate-950 border border-slate-800 p-1.5 rounded text-xs text-slate-200 outline-none">
+      <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 font-bold text-xs px-1">✕</button>`;
+    stack.appendChild(div);
+  }
+
+  async function saveUserProfileSettings() {
+    if (!loggedInPhone) return;
+
+    const addrRows = document.querySelectorAll('.addr-row');
+    const addresses = [];
+    let defaultIndex = 0;
+    addrRows.forEach((row, idx) => {
+      const text = row.querySelector('textarea').value.trim();
+      const isDefault = row.querySelector('.default-star').innerText === '★';
+      if (text) { addresses.push(text); if (isDefault) defaultIndex = addresses.length - 1; }
+    });
+
+    const family = [];
+    document.querySelectorAll('.family-row').forEach(row => {
+      const inputs = row.querySelectorAll('input, select');
+      const name = inputs[0].value.trim();
+      const gender = inputs[1].value;
+      const dob = inputs[2].value;
+      if (name) family.push({ name, gender, dob });
+    });
+
+    const newPass = document.getElementById('profile-new-pass').value;
+    const confirmPass = document.getElementById('profile-confirm-pass').value;
+    if (newPass && newPass !== confirmPass) return alert("Passwords don't match.");
+
+    const res = await fetch('/api/auth/update-profile', {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone: loggedInPhone, addresses, defaultAddressIndex: defaultIndex, family, password: newPass || undefined })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      if (newPass) { currentUserData.password = newPass; sessionStorage.setItem('activeUser', JSON.stringify(currentUserData)); }
+      alert("Profile saved!");
+      toggleProfileDrawer(false);
+      document.getElementById('profile-new-pass').value = '';
+      document.getElementById('profile-confirm-pass').value = '';
+    } else {
+      alert("Save failed: " + data.message);
+    }
+  }
+
+  // =========================================================================
+  // INIT
+  // =========================================================================
+  renderAuthPanel();
+  loadCatalog();
+</script>
+</body>
+</html>

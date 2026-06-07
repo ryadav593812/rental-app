@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Namma Party Props - Admin Logistics & Analytics Desk</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 p-6 min-h-screen">
+  <div class="max-w-6xl mx-auto space-y-6">
+    
+    <div class="flex justify-between items-center bg-slate-800 p-4 rounded-lg border border-slate-700 shadow-xl">
+      <div>
+        <h1 class="text-2xl font-black text-indigo-400 tracking-tight">Admin Operations Control Desk</h1>
+        <p class="text-xs text-slate-400 mt-0.5 font-mono">Central Ecosystem Allocation Node Engine</p>
+      </div>
+      <div class="flex gap-2">
+        <a href="inventory.html" class="text-xs bg-emerald-600 hover:bg-emerald-500 border border-emerald-500 text-white font-bold px-4 py-2 rounded transition shadow-sm">
+          🛠️ Open Inventory Registry
+        </a>
+        <a href="index.html" class="text-xs bg-slate-700 border border-slate-600 hover:bg-slate-600 text-white font-bold px-4 py-2 rounded transition shadow-sm">
+          ← Storefront Portal
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-gradient-to-br from-indigo-950 to-slate-800 border border-indigo-500/30 p-4 rounded-lg shadow-md">
+        <span class="text-[10px] uppercase font-bold tracking-wider text-indigo-300 block">Total Gross Revenue Flow</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span id="stat-revenue" class="text-3xl font-black font-mono text-white">₹0</span>
+          <span class="text-xs text-emerald-400 font-medium">Active Bookings</span>
+        </div>
+        <p class="text-[10px] text-slate-400 mt-1 italic">Excludes cancelled order structures</p>
+      </div>
+
+      <div class="bg-slate-800 border border-slate-700 p-4 rounded-lg shadow-md">
+        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">Top Demanded Prop Themes</span>
+        <div id="stat-themes-list" class="mt-2 space-y-1 text-xs font-medium text-slate-300">
+          <p class="text-slate-500 italic">Analyzing telemetry data...</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-800 border border-slate-700 p-4 rounded-lg shadow-md">
+        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">Upcoming Fleet Delivery Densities</span>
+        <div id="stat-logistics-list" class="mt-2 space-y-1 text-xs font-mono text-slate-300">
+          <p class="text-slate-500 italic">Mapping scheduling blocks...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6">
+      <div class="bg-slate-800 border border-slate-700 rounded-lg p-5 shadow-xl space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-700 pb-3">
+          <h2 class="text-base font-bold text-slate-200 flex items-center gap-2">
+            <span>📦</span> Active Client Booking Allocation Stream
+          </h2>
+          <span id="order-count-badge" class="text-xs bg-indigo-900 text-indigo-300 border border-indigo-700 px-2.5 py-0.5 rounded font-bold font-mono">Loading...</span>
+        </div>
+
+        <div id="admin-orders-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modify-order-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+    <div class="bg-slate-800 border border-slate-700 rounded-lg p-5 max-w-md w-full space-y-4 shadow-2xl">
+      <div>
+        <h3 class="text-sm font-black text-slate-200">✏️ Audit & Modify Booking Configuration</h3>
+        <p class="text-[11px] text-slate-400 mt-0.5">Rectify decor line item conflicts and adjust custom pricing parameters.</p>
+      </div>
+      
+      <div class="space-y-1.5">
+        <span class="text-[10px] uppercase text-slate-500 font-bold tracking-wider block">Current Manifest Layout</span>
+        <div id="modal-manifest-list" class="space-y-1 max-h-36 overflow-y-auto border border-slate-700/60 p-2 bg-slate-900 rounded divide-y divide-slate-800"></div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2 items-end">
+        <div class="col-span-2 text-xs">
+          <label class="block text-slate-400 mb-1 font-bold">Inject Replacement Prop (By Asset Code)</label>
+          <select id="modal-asset-dropdown" class="w-full bg-slate-900 border border-slate-700 text-slate-300 p-2 rounded outline-none font-medium"></select>
+        </div>
+        <button onclick="injectItemToModalManifest()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold py-2 rounded border border-slate-600 transition">
+          ➕ Inject Row
+        </button>
+      </div>
+
+      <div class="text-xs">
+        <label class="block text-slate-400 mb-1 font-bold">Override Settlement Price Total (₹)</label>
+        <input type="number" id="modal-override-price" class="w-full bg-slate-900 border border-slate-700 text-emerald-400 font-bold font-mono p-2 rounded outline-none focus:border-indigo-500">
+      </div>
+
+      <div class="flex justify-end space-x-2 pt-2 text-xs">
+        <button onclick="toggleModifyModal(false)" class="bg-slate-700 hover:bg-slate-600 text-slate-300 px-4 py-2 rounded font-semibold transition">Cancel</button>
+        <button onclick="saveModifiedOrder()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded font-bold shadow transition">Commit Asset Adjustments</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let globalActiveOrdersList = [];
+    let masterCatalogAssetsList = [];
+    let currentModifyingOrderId = null;
+    let currentModifyingItemsArray = [];
+
+    async function loadAllSystemOrders() {
+      const container = document.getElementById('admin-orders-container');
+      const badge = document.getElementById('order-count-badge');
+      
+      try {
+        const res = await fetch('/api/orders');
+        globalActiveOrdersList = await res.json();
+        
+        // Fetch baseline catalog assets to feed data selectors dropdown
+        const assetRes = await fetch('/api/admin/inventory');
+        masterCatalogAssetsList = await assetRes.json();
+        populateAssetDropdown();
+
+        badge.innerText = `${globalActiveOrdersList.length} Records Locked`;
+        calculateMetrics(globalActiveOrdersList);
+
+        if (globalActiveOrdersList.length === 0) {
+          container.innerHTML = `<div class="col-span-full text-center p-8 bg-slate-800/50 border border-dashed border-slate-700 rounded text-slate-500 text-sm">No reservations logged.</div>`;
+          return;
+        }
+
+        container.innerHTML = globalActiveOrdersList.slice().reverse().map(order => {
+          let itemsArray = [];
+          try { itemsArray = typeof order.items_json === 'string' ? JSON.parse(order.items_json) : order.items_json; } catch (e) { itemsArray = []; }
+
+          const manifestLinesHtml = itemsArray.map(i => `
+            <li class="flex justify-between items-center text-[11px] py-1 border-b border-slate-700/40 last:border-none text-slate-300">
+              <span class="font-medium">• ${i.name} <span class="text-[9px] text-slate-500 font-mono">(CODE-${i.id})</span></span>
+              <span class="text-indigo-400 font-mono font-bold">₹${i.price}</span>
+            </li>
+          `).join('');
+
+          return `
+            <div class="bg-slate-800/80 border border-slate-700 p-4 rounded-lg shadow-md space-y-3 flex flex-col justify-between hover:border-slate-600 transition">
+              <div class="space-y-1.5">
+                <div class="flex justify-between items-start border-b border-slate-700 pb-2">
+                  <div>
+                    <span class="font-mono text-xs font-bold bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-slate-700">ID: #${order.id}</span>
+                    <span class="text-xs text-indigo-400 font-bold ml-2 font-mono">👤 ${order.customer_phone}</span>
+                  </div>
+                  <span class="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded border bg-slate-900 border-slate-700 text-slate-300">${order.status}</span>
+                </div>
+                <div class="text-[10px] font-mono text-slate-400">🗓️ Target Date: ${order.event_date}</div>
+                <div class="bg-slate-900/60 p-2.5 rounded border border-slate-700/60 my-2">
+                  <ul class="space-y-0.5 pl-1">${manifestLinesHtml}</ul>
+                </div>
+              </div>
+
+              <div class="pt-3 border-t border-slate-700 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex gap-1">
+                  <a href="manifest-preview.html?orderId=${order.id}" target="_blank" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 border border-slate-600 font-bold px-2.5 py-1.5 rounded transition shadow-sm">🖨️ Print</a>
+                  
+                  ${['PENDING','REVIEWED'].includes(order.status) ? `
+                    <button onclick="openModifyModal(${order.id})" class="text-xs bg-indigo-950 text-indigo-400 hover:bg-indigo-900 border border-indigo-900 font-bold px-2.5 py-1.5 rounded transition">✏️ Modify</button>
+                  ` : ''}
+                </div>
+
+                <div class="flex items-center space-x-1.5">
+                  <select id="status-select-${order.id}" class="text-xs bg-slate-900 border border-slate-700 p-1.5 rounded font-semibold text-slate-300 focus:ring-1 focus:ring-indigo-500 outline-none">
+                    <option value="PENDING" ${order.status === 'PENDING' ? 'selected' : ''}>PENDING</option>
+                    <option value="REVIEWED" ${order.status === 'REVIEWED' ? 'selected' : ''}>REVIEWED</option>
+                    <option value="ORDERED" ${order.status === 'ORDERED' ? 'selected' : ''}>ORDERED</option>
+                    <option value="DELIVERED" ${order.status === 'DELIVERED' ? 'selected' : ''}>DELIVERED</option>
+                    <option value="READY TO PICK UP" ${order.status === 'READY TO PICK UP' ? 'selected' : ''}>READY TO PICK UP</option>
+                    <option value="COMPLETED" ${order.status === 'COMPLETED' ? 'selected' : ''}>COMPLETED</option>
+                    <option value="CANCELLED" ${order.status === 'CANCELLED' ? 'selected' : ''}>CANCELLED</option>
+                  </select>
+                  <button onclick="updateOrderStatus(${order.id})" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-1.5 px-3 rounded shadow transition border border-indigo-500">Update</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+      } catch (err) {
+        container.innerHTML = `<div class="col-span-full text-center text-rose-400">Stream Error.</div>`;
+      }
+    }
+
+    function populateAssetDropdown() {
+      const dropdown = document.getElementById('modal-asset-dropdown');
+      dropdown.innerHTML = masterCatalogAssetsList
+        .filter(a => a.is_active)
+        .map(a => `<option value="${a.id}">PROP-0${a.id} • ${a.name} (₹${a.price})</option>`)
+        .join('');
+    }
+
+    // --- MODAL ENGINE OPERATION WORKFLOW FUNCTIONS ---
+    function openModifyModal(orderId) {
+      const order = globalActiveOrdersList.find(o => o.id === orderId);
+      if (!order) return;
+
+      currentModifyingOrderId = orderId;
+      try {
+        currentModifyingItemsArray = typeof order.items_json === 'string' ? JSON.parse(order.items_json) : order.items_json;
+      } catch (e) { currentModifyingItemsArray = []; }
+
+      document.getElementById('modal-override-price').value = order.total_price;
+      renderModalManifestRows();
+      toggleModifyModal(true);
+    }
+
+    function renderModalManifestRows() {
+      const list = document.getElementById('modal-manifest-list');
+      if (currentModifyingItemsArray.length === 0) {
+        list.innerHTML = `<p class="text-slate-500 italic text-center text-[11px] py-2">Manifest is currently empty.</p>`;
+        return;
+      }
+      list.innerHTML = currentModifyingItemsArray.map((item, index) => `
+        <div class="flex justify-between items-center py-1.5 text-xs text-slate-300">
+          <p class="truncate font-bold">🛠️ CODE-${item.id} <span class="font-normal text-slate-400 ml-1">${item.name}</span></p>
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="font-mono text-emerald-400">₹${item.price}</span>
+            <button onclick="removeItemFromModalManifest(${index})" class="text-rose-400 hover:text-rose-300 font-bold px-1 text-sm">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function injectItemToModalManifest() {
+      const dropdown = document.getElementById('modal-asset-dropdown');
+      const selectedAssetId = Number(dropdown.value);
+      const asset = masterCatalogAssetsList.find(a => a.id === selectedAssetId);
+      
+      if (!asset) return;
+
+      // Add clean line-item data structure mapping layout to modal temporary stack array
+      currentModifyingItemsArray.push({
+        id: asset.id,
+        name: asset.name,
+        price: asset.price
+      });
+
+      // Recalculate financial aggregate values automatically inside input block container
+      const currentPriceTotal = currentModifyingItemsArray.reduce((sum, item) => sum + Number(item.price), 0);
+      document.getElementById('modal-override-price').value = currentPriceTotal;
+
+      renderModalManifestRows();
+    }
+
+    function removeItemFromModalManifest(index) {
+      currentModifyingItemsArray.splice(index, 1);
+      const currentPriceTotal = currentModifyingItemsArray.reduce((sum, item) => sum + Number(item.price), 0);
+      document.getElementById('modal-override-price').value = currentPriceTotal;
+      renderModalManifestRows();
+    }
+
+    async function saveModifiedOrder() {
+      const overridenPrice = document.getElementById('modal-override-price').value;
+
+      const res = await fetch('/api/orders/modify', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId: currentModifyingOrderId,
+          items: currentModifyingItemsArray,
+          total_price: overridenPrice
+        })
+      });
+
+      if (res.ok) {
+        alert("Client order structural elements audited, optimized, and saved cleanly.");
+        toggleModifyModal(false);
+        loadAllSystemOrders();
+      } else {
+        const data = await res.json();
+        alert("Operation Aborted: " + data.message);
+      }
+    }
+
+    function toggleModifyModal(show) {
+      document.getElementById('modify-order-modal').classList.toggle('hidden', !show);
+    }
+
+    function calculateMetrics(orders) {
+      let revenueSum = 0; const themeCounter = {}; const dateCounter = {};
+      orders.forEach(order => {
+        if (order.status === 'CANCELLED') return;
+        revenueSum += Number(order.total_price || 0);
+        dateCounter[order.event_date] = (dateCounter[order.event_date] || 0) + 1;
+        let itemsArray = []; try { itemsArray = typeof order.items_json === 'string' ? JSON.parse(order.items_json) : order.items_json; } catch(e){}
+        itemsArray.forEach(item => {
+          const inferredTheme = item.theme || (item.name.toLowerCase().includes('marigold') || item.name.toLowerCase().includes('haldi') ? 'Traditional Haldi' : 'Other Themes');
+          themeCounter[inferredTheme] = (themeCounter[inferredTheme] || 0) + 1;
+        });
+      });
+      document.getElementById('stat-revenue').innerText = `₹${revenueSum.toLocaleString('en-IN')}`;
+      const sortedThemes = Object.entries(themeCounter).sort((a,b) => b[1] - a[1]).slice(0, 3);
+      document.getElementById('stat-themes-list').innerHTML = sortedThemes.map(([t, c]) => `<p>⭐ ${t}: <span class="text-indigo-400 font-bold">${c} items</span></p>`).join('') || '<p class="text-slate-500">None</p>';
+      const sortedDates = Object.entries(dateCounter).sort((a,b) => b[1] - a[1]).slice(0, 3);
+      document.getElementById('stat-logistics-list').innerHTML = sortedDates.map(([d, c]) => `<p>📅 ${d}: <span class="text-amber-400">[${c} Orders]</span></p>`).join('') || '<p class="text-slate-500">None</p>';
+    }
+
+    async function updateOrderStatus(orderId) {
+      const selectElement = document.getElementById(`status-select-${orderId}`);
+      const targetStatus = selectElement.value;
+      const res = await fetch('/api/orders/update-state', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, status: targetStatus, items: [] })
+      });
+      if (res.ok) { alert("State Synchronized."); loadAllSystemOrders(); }
+    }
+
+    loadAllSystemOrders();
+  </script>
+</body>
+</html>
