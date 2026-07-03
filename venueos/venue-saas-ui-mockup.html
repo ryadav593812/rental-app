@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VenueOS — UI Sketch Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1E2A38;
+  --navy-light:#2C3B4E;
+  --bg:#F7F8FA;
+  --card:#FFFFFF;
+  --line:#E4E7EB;
+  --text:#1E2A38;
+  --text-soft:#6B7280;
+  --text-faint:#9CA3AF;
+  --teal:#2D7D6E;
+  --teal-bg:#E4F2EF;
+  --amber:#D97A3D;
+  --amber-bg:#FBEAE0;
+  --red:#C44545;
+  --red-bg:#FBE8E8;
+  --blue:#3B6FA0;
+  --blue-bg:#E7EFF6;
+  --purple:#6B5B95;
+  --purple-bg:#EEEBF5;
+  --radius:10px;
+  --shadow:0 1px 2px rgba(30,42,56,0.06), 0 4px 12px rgba(30,42,56,0.04);
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:14px;
+}
+.mono{font-family:'JetBrains Mono',monospace;}
+ 
+/* ===== App Shell ===== */
+.app-shell{
+  display:flex;
+  min-height:100vh;
+}
+ 
+/* ===== Left Nav: Persona Switcher ===== */
+.persona-nav{
+  width:248px;
+  flex:none;
+  background:var(--navy);
+  color:#fff;
+  padding:22px 14px;
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+}
+.nav-brand{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:0 8px 20px;
+  margin-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.nav-brand-mark{
+  width:26px;height:26px;border-radius:7px;
+  background:linear-gradient(135deg,var(--teal),#3B9685);
+  flex:none;
+}
+.nav-brand-text{
+  font-weight:700;
+  font-size:15px;
+  letter-spacing:-0.01em;
+}
+.nav-brand-sub{
+  font-size:10.5px;
+  color:rgba(255,255,255,0.5);
+  margin-top:1px;
+}
+.nav-section-label{
+  font-size:10.5px;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:rgba(255,255,255,0.4);
+  padding:14px 10px 6px;
+  font-weight:600;
+}
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 10px;
+  border-radius:7px;
+  cursor:pointer;
+  color:rgba(255,255,255,0.75);
+  font-size:13.2px;
+  font-weight:500;
+  margin-bottom:1px;
+  transition:background 0.12s;
+}
+.nav-item:hover{ background:rgba(255,255,255,0.06); color:#fff; }
+.nav-item.active{
+  background:rgba(255,255,255,0.12);
+  color:#fff;
+}
+.nav-item .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:currentColor;
+  opacity:0.5;
+  flex:none;
+}
+.nav-item.active .dot{ background:var(--teal); opacity:1; }
+ 
+/* ===== Main Content ===== */
+.main{
+  flex:1;
+  min-width:0;
+  padding:28px 36px 80px;
+}
+.main-header{
+  margin-bottom:22px;
+}
+.main-eyebrow{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--text-faint);
+  font-weight:600;
+  margin-bottom:6px;
+}
+.main-title{
+  font-size:24px;
+  font-weight:700;
+  letter-spacing:-0.01em;
+  margin:0 0 6px;
+}
+.main-desc{
+  color:var(--text-soft);
+  font-size:13.5px;
+  max-width:640px;
+  margin:0;
+}
+ 
+/* ===== Legend (persistent) ===== */
+.legend-bar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:16px 0 28px;
+  padding:12px 14px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+}
+.legend-chip{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--text-soft);
+}
+.legend-chip .sw{
+  width:9px;height:9px;border-radius:3px;
+}
+ 
+/* ===== Screen Frame (browser chrome) ===== */
+.screen-frame{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  margin-bottom:30px;
+}
+.frame-bar{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  background:#EFF1F4;
+  border-bottom:1px solid var(--line);
+}
+.frame-dots{ display:flex; gap:5px; }
+.frame-dots span{ width:9px;height:9px;border-radius:50%; background:#D1D5DB; }
+.frame-url{
+  flex:1;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:4px 10px;
+  font-size:11px;
+  color:var(--text-faint);
+  font-family:'JetBrains Mono',monospace;
+}
+.frame-body{
+  padding:0;
+}
+.screen-label{
+  font-size:11.5px;
+  font-weight:700;
+  color:var(--teal);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  margin:0 0 10px;
+}
+ 
+/* ===== Generic UI building blocks ===== */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+}
+.kpi-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:12px;
+  margin-bottom:18px;
+}
+.kpi{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:14px 16px;
+}
+.kpi-label{ font-size:11px; color:var(--text-faint); font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px;}
+.kpi-value{ font-size:21px; font-weight:700; letter-spacing:-0.01em; }
+.kpi-delta{ font-size:11px; font-weight:600; margin-top:3px; }
+.kpi-delta.up{ color:var(--teal); }
+.kpi-delta.down{ color:var(--red); }
+ 
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:10.5px;
+  font-weight:700;
+  padding:3px 9px;
+  border-radius:20px;
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+}
+.badge.confirmed{ background:var(--teal-bg); color:var(--teal); }
+.badge.softlock{ background:var(--amber-bg); color:var(--amber); }
+.badge.blocked{ background:var(--red-bg); color:var(--red); }
+.badge.inquiry{ background:var(--blue-bg); color:var(--blue); }
+.badge.neutral{ background:#F1F2F4; color:var(--text-soft); }
+ 
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:13px;
+  font-weight:600;
+  padding:8px 14px;
+  border-radius:7px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--text);
+  cursor:default;
+}
+.btn.primary{ background:var(--navy); color:#fff; border-color:var(--navy); }
+.btn.teal{ background:var(--teal); color:#fff; border-color:var(--teal); }
+.btn.ghost{ background:transparent; border-color:var(--line); color:var(--text-soft); }
+.btn.sm{ padding:5px 10px; font-size:11.5px; }
+ 
+table.data-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12.8px;
+}
+table.data-table th{
+  text-align:left;
+  font-size:10.8px;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  color:var(--text-faint);
+  font-weight:600;
+  padding:8px 10px;
+  border-bottom:1px solid var(--line);
+}
+table.data-table td{
+  padding:10px 10px;
+  border-bottom:1px solid var(--line);
+  color:var(--text);
+}
+table.data-table tr:last-child td{ border-bottom:none; }
+ 
+.tab-strip{
+  display:flex;
+  gap:4px;
+  border-bottom:1px solid var(--line);
+  padding:0 16px;
+  background:#fff;
+}
+.tab-strip .tab{
+  padding:11px 4px;
+  margin-right:18px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--text-faint);
+  border-bottom:2px solid transparent;
+}
+.tab-strip .tab.active{ color:var(--navy); border-bottom-color:var(--navy); }
+.tab-strip .tab.owner-tab,
+.tab-strip .tab.manager-tab{ cursor:pointer; transition:color 0.12s; }
+.tab-strip .tab.owner-tab:hover,
+.tab-strip .tab.manager-tab:hover{ color:var(--navy); }
+ 
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:13px 18px;
+  border-bottom:1px solid var(--line);
+  background:#fff;
+}
+.topbar-left{ display:flex; align-items:center; gap:10px; }
+.topbar-title{ font-weight:700; font-size:14.5px; }
+.topbar-right{ display:flex; align-items:center; gap:14px; }
+.icon-btn{
+  width:32px;height:32px;border-radius:8px;
+  background:#F1F2F4;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+  position:relative;
+}
+.icon-btn .ping{
+  position:absolute; top:-2px; right:-2px;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--red); border:1.5px solid #fff;
+}
+.avatar{
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--blue));
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:700;font-size:12px;
+}
+ 
+.app-grid{
+  display:grid;
+  grid-template-columns:200px 1fr;
+  min-height:520px;
+}
+.app-sidebar{
+  border-right:1px solid var(--line);
+  background:#FAFBFC;
+  padding:14px 10px;
+}
+.app-sidebar .s-item{
+  padding:8px 10px;
+  border-radius:7px;
+  font-size:12.8px;
+  font-weight:500;
+  color:var(--text-soft);
+  margin-bottom:2px;
+  display:flex; align-items:center; gap:8px;
+}
+.app-sidebar .s-item.active{ background:#fff; color:var(--navy); font-weight:700; box-shadow:var(--shadow); }
+.app-sidebar .s-item.sa-tab{ cursor:pointer; transition:background 0.12s, color 0.12s; }
+.app-sidebar .s-item.sa-tab:hover{ background:rgba(30,42,56,0.05); color:var(--navy); }
+.app-content{ padding:20px; }
+ 
+.section-block{
+  margin-top:42px;
+  padding-top:8px;
+}
+.section-block h3{
+  font-size:16px;
+  font-weight:700;
+  margin:0 0 4px;
+}
+.section-block .sub{
+  font-size:12.5px;
+  color:var(--text-soft);
+  margin:0 0 14px;
+}
+ 
+.note-box{
+  background:var(--blue-bg);
+  border:1px solid #C9DCEC;
+  border-radius:8px;
+  padding:12px 14px;
+  font-size:12px;
+  color:#2A4D6E;
+  margin-top:14px;
+}
+.note-box b{ color:var(--blue); }
+ 
+footer.gallery-footer{
+  margin-top:60px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+  font-size:11px;
+  color:var(--text-faint);
+  font-family:'JetBrains Mono',monospace;
+}
+ 
+@media (max-width:900px){
+  .persona-nav{ display:none; }
+  .main{ padding:20px 16px; }
+}
+</style>
+</head>
+<body>
+ 
+<div class="app-shell">
+  <!-- PERSONA NAV -->
+  <nav class="persona-nav">
+    <div class="nav-brand">
+      <div class="nav-brand-mark"></div>
+      <div>
+        <div class="nav-brand-text">VenueOS</div>
+        <div class="nav-brand-sub">UI sketch gallery</div>
+      </div>
+    </div>
+ 
+    <div class="nav-section-label">Entry</div>
+    <div class="nav-item active" onclick="showScreen('login')"><span class="dot"></span>Login / Registration</div>
+ 
+    <div class="nav-section-label">Platform</div>
+    <div class="nav-item" onclick="showScreen('superadmin')"><span class="dot"></span>Super Admin</div>
+ 
+    <div class="nav-section-label">Venue Side</div>
+    <div class="nav-item" onclick="showScreen('owner')"><span class="dot"></span>Venue Owner</div>
+    <div class="nav-item" onclick="showScreen('manager')"><span class="dot"></span>Venue Manager</div>
+    <div class="nav-item" onclick="showScreen('sales')"><span class="dot"></span>Sales Agent</div>
+    <div class="nav-item" onclick="showScreen('accounts')"><span class="dot"></span>Accounts Staff</div>
+    <div class="nav-item" onclick="showScreen('groupadmin')"><span class="dot"></span>Multi-Venue Group Admin</div>
+    <div class="nav-item" onclick="showScreen('rbac')"><span class="dot"></span>Staff &amp; RBAC Editor</div>
+ 
+    <div class="nav-section-label">Core Workflows</div>
+    <div class="nav-item" onclick="showScreen('calendar')"><span class="dot"></span>Booking Calendar &amp; Soft-Lock</div>
+    <div class="nav-item" onclick="showScreen('layout2d')"><span class="dot"></span>2D Layout Designer</div>
+    <div class="nav-item" onclick="showScreen('layout3d')"><span class="dot"></span>3D Visualization</div>
+    <div class="nav-item" onclick="showScreen('intel')"><span class="dot"></span>Demand Intelligence</div>
+ 
+    <div class="nav-section-label">Customer Side</div>
+    <div class="nav-item" onclick="showScreen('customer')"><span class="dot"></span>Customer Portal</div>
+ 
+    <div class="nav-section-label">External</div>
+    <div class="nav-item" onclick="showScreen('vendor')"><span class="dot"></span>Vendor Portal</div>
+    <div class="nav-item" onclick="showScreen('referral')"><span class="dot"></span>Referral Partner Portal</div>
+ 
+    <div class="nav-section-label">System</div>
+    <div class="nav-item" onclick="showScreen('notifications')"><span class="dot"></span>Notifications</div>
+  </nav>
+ 
+  <!-- MAIN -->
+  <main class="main" id="main-content">
+ 
+    <div class="legend-bar">
+      <span class="legend-chip"><span class="sw" style="background:var(--blue)"></span>Inquiry</span>
+      <span class="legend-chip"><span class="sw" style="background:var(--amber)"></span>Soft Lock</span>
+      <span class="legend-chip"><span class="sw" style="background:var(--teal)"></span>Confirmed</span>
+      <span class="legend-chip"><span class="sw" style="background:var(--red)"></span>Blocked / Urgent</span>
+      <span class="legend-chip"><span class="sw" style="background:#D1D5DB"></span>Available</span>
+    </div>
+ 
+    <!-- ============ LOGIN ============ -->
+    <section class="screen-section" id="screen-login">
+      <div class="main-header">
+        <div class="main-eyebrow">Entry &middot; All Personas</div>
+        <h1 class="main-title">Login &amp; Registration</h1>
+        <p class="main-desc">One login screen serves every persona — staff, owners, customers, vendors, and referral partners. OTP-based, role is detected after authentication and routes to the correct dashboard.</p>
+      </div>
+ 
+      <div class="screen-frame" style="max-width:420px;">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/login</div>
+        </div>
+        <div class="frame-body" style="padding:36px 30px;">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:28px;">
+            <div class="nav-brand-mark"></div>
+            <div style="font-weight:700;font-size:16px;">VenueOS</div>
+          </div>
+          <div style="font-size:18px;font-weight:700;margin-bottom:4px;">Welcome back</div>
+          <div style="font-size:12.5px;color:var(--text-soft);margin-bottom:20px;">Log in with your mobile number</div>
+ 
+          <div style="font-size:11.5px;font-weight:600;color:var(--text-soft);margin-bottom:6px;">Mobile number</div>
+          <div style="display:flex;border:1px solid var(--line);border-radius:8px;margin-bottom:14px;overflow:hidden;">
+            <div style="padding:10px 12px;background:#F7F8FA;font-size:13px;color:var(--text-soft);border-right:1px solid var(--line);">+91</div>
+            <div style="padding:10px 12px;font-size:13px;color:var(--text-faint);" class="mono">98765 43210</div>
+          </div>
+ 
+          <div style="font-size:11.5px;font-weight:600;color:var(--text-soft);margin-bottom:6px;">OTP</div>
+          <div style="display:flex;gap:8px;margin-bottom:18px;">
+            <div style="width:38px;height:42px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;" class="mono">4</div>
+            <div style="width:38px;height:42px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;" class="mono">2</div>
+            <div style="width:38px;height:42px;border:1px solid var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;">&nbsp;</div>
+            <div style="width:38px;height:42px;border:1px solid var(--line);border-radius:8px;"></div>
+          </div>
+ 
+          <div class="btn primary" style="width:100%;justify-content:center;padding:11px;margin-bottom:12px;">Verify &amp; continue</div>
+          <div style="text-align:center;font-size:11.5px;color:var(--text-faint);">Resend OTP in 0:24</div>
+ 
+          <div style="margin-top:22px;padding-top:16px;border-top:1px solid var(--line);font-size:11.5px;color:var(--text-soft);text-align:center;">
+            New venue? <span style="color:var(--teal);font-weight:600;">Start free 14-day trial &rarr;</span>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="note-box">
+        <b>Role routing logic:</b> after OTP verification, the backend checks which persona(s) this mobile number is registered as. Staff/owner accounts route to their venue dashboard; unrecognized numbers are offered the customer sign-up flow; numbers tagged as vendor/referral route to their respective external portals. A number tied to more than one role (e.g. an owner who is also listed as a customer) sees a quick role-picker before entering.
+      </div>
+    </section>
+ 
+    <!-- ============ SUPER ADMIN ============ -->
+    <section class="screen-section" id="screen-superadmin" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Platform &middot; PER-SUPERADMIN</div>
+        <h1 class="main-title">Super Admin Portal</h1>
+        <p class="main-desc">Cross-tenant control plane. Manages every venue on the platform, subscription plans, feature flags, and platform-wide health — not scoped to any single venue.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">admin.venueos.in/tenants</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left">
+              <div class="nav-brand-mark" style="width:22px;height:22px;"></div>
+              <div class="topbar-title">VenueOS &middot; Platform Admin</div>
+            </div>
+            <div class="topbar-right">
+              <div class="icon-btn">&#128276;<span class="ping"></span></div>
+              <div class="avatar">SA</div>
+            </div>
+          </div>
+ 
+          <div class="app-grid">
+            <div class="app-sidebar">
+              <div class="s-item sa-tab active" data-sa="sa-overview">&#128202; Overview</div>
+              <div class="s-item sa-tab" data-sa="sa-tenants">&#127970; Tenants</div>
+              <div class="s-item sa-tab" data-sa="sa-subscriptions">&#128181; Subscriptions</div>
+              <div class="s-item sa-tab" data-sa="sa-flags">&#127991; Feature Flags</div>
+              <div class="s-item sa-tab" data-sa="sa-tickets">&#128172; Support Tickets</div>
+              <div class="s-item sa-tab" data-sa="sa-settings">&#9881; Platform Settings</div>
+            </div>
+            <div class="app-content">
+ 
+              <!-- ===== SA: OVERVIEW ===== -->
+              <div class="sa-pane" id="sa-overview">
+                <div class="kpi-row">
+                  <div class="kpi"><div class="kpi-label">Active venues</div><div class="kpi-value">142</div><div class="kpi-delta up">+8 this month</div></div>
+                  <div class="kpi"><div class="kpi-label">MRR</div><div class="kpi-value">&#8377;9.4L</div><div class="kpi-delta up">+12% MoM</div></div>
+                  <div class="kpi"><div class="kpi-label">Trial &rarr; Paid</div><div class="kpi-value">38%</div><div class="kpi-delta down">-3% MoM</div></div>
+                  <div class="kpi"><div class="kpi-label">Open tickets</div><div class="kpi-value">6</div><div class="kpi-delta" style="color:var(--text-faint);">2 urgent</div></div>
+                </div>
+ 
+                <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:16px;">
+                  <div class="card">
+                    <div style="font-weight:700;font-size:13.5px;margin-bottom:12px;">MRR trend — last 6 months</div>
+                    <div style="display:flex;align-items:flex-end;gap:10px;height:110px;">
+                      <div style="flex:1;background:#E4E7EB;border-radius:4px 4px 0 0;height:48%;"></div>
+                      <div style="flex:1;background:#E4E7EB;border-radius:4px 4px 0 0;height:55%;"></div>
+                      <div style="flex:1;background:#E4E7EB;border-radius:4px 4px 0 0;height:62%;"></div>
+                      <div style="flex:1;background:#E4E7EB;border-radius:4px 4px 0 0;height:70%;"></div>
+                      <div style="flex:1;background:#E4E7EB;border-radius:4px 4px 0 0;height:84%;"></div>
+                      <div style="flex:1;background:var(--teal);border-radius:4px 4px 0 0;height:100%;"></div>
+                    </div>
+                    <div style="display:flex;gap:10px;margin-top:6px;">
+                      <div style="flex:1;text-align:center;font-size:10.5px;color:var(--text-faint);">Jan</div>
+                      <div style="flex:1;text-align:center;font-size:10.5px;color:var(--text-faint);">Feb</div>
+                      <div style="flex:1;text-align:center;font-size:10.5px;color:var(--text-faint);">Mar</div>
+                      <div style="flex:1;text-align:center;font-size:10.5px;color:var(--text-faint);">Apr</div>
+                      <div style="flex:1;text-align:center;font-size:10.5px;color:var(--text-faint);">May</div>
+                      <div style="flex:1;text-align:center;font-size:10.5px;color:var(--navy);font-weight:700;">Jun</div>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div style="font-weight:700;font-size:13.5px;margin-bottom:12px;">Tenants by plan</div>
+                    <div style="display:flex;flex-direction:column;gap:9px;">
+                      <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Pro</span><b>38</b></div>
+                      <div style="height:6px;background:var(--navy);border-radius:3px;width:60%;"></div>
+                      <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Growth</span><b>71</b></div>
+                      <div style="height:6px;background:var(--teal);border-radius:3px;width:90%;"></div>
+                      <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Starter</span><b>26</b></div>
+                      <div style="height:6px;background:var(--blue);border-radius:3px;width:38%;"></div>
+                      <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Enterprise</span><b>7</b></div>
+                      <div style="height:6px;background:var(--purple);border-radius:3px;width:14%;"></div>
+                    </div>
+                  </div>
+                </div>
+ 
+                <div class="section-block">
+                  <h3>Recent platform activity</h3>
+                  <div class="sub">Cross-tenant event stream — onboarding, billing, and escalations as they happen.</div>
+                  <div class="card">
+                    <table class="data-table">
+                      <tr><th>Time</th><th>Event</th><th>Tenant</th><th></th></tr>
+                      <tr><td class="mono" style="color:var(--text-faint);">10:42 AM</td><td>Payment retry failed (2nd attempt)</td><td>Palm Court Events</td><td><span class="badge blocked">Action needed</span></td></tr>
+                      <tr><td class="mono" style="color:var(--text-faint);">9:15 AM</td><td>Trial day 9 of 14 — no module activation yet</td><td>Royal Banquet Hall</td><td><span class="badge softlock">Watch</span></td></tr>
+                      <tr><td class="mono" style="color:var(--text-faint);">Yesterday</td><td>Upgraded Growth &rarr; Pro</td><td>Heritage Gardens</td><td><span class="badge confirmed">Upsell</span></td></tr>
+                      <tr><td class="mono" style="color:var(--text-faint);">Yesterday</td><td>New tenant onboarded</td><td>Coastal Celebrations, Mangalore</td><td><span class="badge confirmed">Onboarded</span></td></tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+ 
+              <!-- ===== SA: TENANTS ===== -->
+              <div class="sa-pane" id="sa-tenants" style="display:none;">
+                <div class="card">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <div style="font-weight:700;font-size:13.5px;">All tenants <span style="color:var(--text-faint);font-weight:500;">(142)</span></div>
+                    <div style="display:flex;gap:8px;">
+                      <div class="btn sm ghost">Export CSV</div>
+                      <div class="btn sm primary">+ Add tenant</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:6px;margin-bottom:12px;">
+                    <span class="badge confirmed">Active &middot; 119</span>
+                    <span class="badge softlock">Trial &middot; 16</span>
+                    <span class="badge blocked">Payment failed &middot; 4</span>
+                    <span class="badge neutral">Suspended &middot; 3</span>
+                  </div>
+                  <table class="data-table">
+                    <tr><th>Venue</th><th>Plan</th><th>Halls</th><th>Status</th><th>MRR</th><th>Modules</th><th></th></tr>
+                    <tr>
+                      <td><b>Grand Vista Convention</b><br><span style="color:var(--text-faint);font-size:11px;">Bangalore</span></td>
+                      <td>Pro</td><td>4</td>
+                      <td><span class="badge confirmed">Active</span></td>
+                      <td class="mono">&#8377;9,999</td>
+                      <td><span class="badge neutral">12/13 on</span></td>
+                      <td><span class="btn sm ghost">Open</span></td>
+                    </tr>
+                    <tr>
+                      <td><b>Sapphire Lawns</b><br><span style="color:var(--text-faint);font-size:11px;">Mysore</span></td>
+                      <td>Growth</td><td>2</td>
+                      <td><span class="badge confirmed">Active</span></td>
+                      <td class="mono">&#8377;5,499</td>
+                      <td><span class="badge neutral">7/13 on</span></td>
+                      <td><span class="btn sm ghost">Open</span></td>
+                    </tr>
+                    <tr>
+                      <td><b>Royal Banquet Hall</b><br><span style="color:var(--text-faint);font-size:11px;">Hubli</span></td>
+                      <td>Starter</td><td>1</td>
+                      <td><span class="badge softlock">Trial &middot; Day 9</span></td>
+                      <td class="mono">&#8377;0</td>
+                      <td><span class="badge neutral">4/13 on</span></td>
+                      <td><span class="btn sm ghost">Open</span></td>
+                    </tr>
+                    <tr>
+                      <td><b>Palm Court Events</b><br><span style="color:var(--text-faint);font-size:11px;">Bangalore</span></td>
+                      <td>Growth</td><td>3</td>
+                      <td><span class="badge blocked">Payment failed</span></td>
+                      <td class="mono">&#8377;5,499</td>
+                      <td><span class="badge neutral">7/13 on</span></td>
+                      <td><span class="btn sm ghost">Open</span></td>
+                    </tr>
+                    <tr>
+                      <td><b>Heritage Gardens</b><br><span style="color:var(--text-faint);font-size:11px;">Coimbatore</span></td>
+                      <td>Pro</td><td>3</td>
+                      <td><span class="badge confirmed">Active</span></td>
+                      <td class="mono">&#8377;9,999</td>
+                      <td><span class="badge neutral">13/13 on</span></td>
+                      <td><span class="btn sm ghost">Open</span></td>
+                    </tr>
+                  </table>
+                </div>
+ 
+                <div class="section-block">
+                  <h3>Tenant detail — Grand Vista Convention</h3>
+                  <div class="sub">What Super Admin sees on opening a single tenant record: account state, usage against plan limits, and direct support actions.</div>
+                  <div class="card" style="max-width:560px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+                      <div>
+                        <div style="font-weight:700;font-size:14px;">Grand Vista Convention</div>
+                        <div style="font-size:11.5px;color:var(--text-faint);">Bangalore &middot; Tenant ID: GV-00142 &middot; Joined Feb 2025</div>
+                      </div>
+                      <span class="badge confirmed">Active</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;margin-bottom:14px;">
+                      <div><span style="color:var(--text-faint);">Plan</span><br><b>Pro &middot; &#8377;9,999/mo</b></div>
+                      <div><span style="color:var(--text-faint);">Halls used</span><br><b>4 of 6</b></div>
+                      <div><span style="color:var(--text-faint);">Bookings this month</span><br><b>19 (unlimited)</b></div>
+                      <div><span style="color:var(--text-faint);">Next billing date</span><br><b class="mono">1 Jul 2026</b></div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                      <div class="btn sm ghost" style="flex:1;justify-content:center;">View as tenant</div>
+                      <div class="btn sm ghost" style="flex:1;justify-content:center;">Edit modules</div>
+                      <div class="btn sm ghost" style="flex:1;justify-content:center;color:var(--red);border-color:#F0C9C9;">Suspend</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+ 
+              <!-- ===== SA: SUBSCRIPTIONS ===== -->
+              <div class="sa-pane" id="sa-subscriptions" style="display:none;">
+                <div class="kpi-row">
+                  <div class="kpi"><div class="kpi-label">Total MRR</div><div class="kpi-value">&#8377;9.4L</div><div class="kpi-delta up">+12% MoM</div></div>
+                  <div class="kpi"><div class="kpi-label">Active trials</div><div class="kpi-value">16</div><div class="kpi-delta" style="color:var(--text-faint);">avg day 6 of 14</div></div>
+                  <div class="kpi"><div class="kpi-label">Churned this month</div><div class="kpi-value" style="color:var(--red);">3</div></div>
+                  <div class="kpi"><div class="kpi-label">Upsells this month</div><div class="kpi-value" style="color:var(--teal);">9</div></div>
+                </div>
+ 
+                <div class="card">
+                  <div style="font-weight:700;font-size:13.5px;margin-bottom:12px;">Plan breakdown</div>
+                  <table class="data-table">
+                    <tr><th>Tier</th><th>Price</th><th>Tenants</th><th>MRR contribution</th><th>Included modules</th></tr>
+                    <tr>
+                      <td><b>Starter</b></td><td class="mono">&#8377;2,499/mo</td><td>26</td><td class="mono">&#8377;64,974</td>
+                      <td><span class="badge neutral">4 modules</span></td>
+                    </tr>
+                    <tr>
+                      <td><b>Growth</b></td><td class="mono">&#8377;5,499/mo</td><td>71</td><td class="mono">&#8377;3,90,429</td>
+                      <td><span class="badge neutral">7 modules</span></td>
+                    </tr>
+                    <tr>
+                      <td><b>Pro</b></td><td class="mono">&#8377;9,999/mo</td><td>38</td><td class="mono">&#8377;3,79,962</td>
+                      <td><span class="badge neutral">12 modules</span></td>
+                    </tr>
+                    <tr>
+                      <td><b>Enterprise / Group</b></td><td class="mono">Custom</td><td>7</td><td class="mono">&#8377;1,64,635</td>
+                      <td><span class="badge neutral">All modules</span></td>
+                    </tr>
+                  </table>
+                </div>
+ 
+                <div class="section-block">
+                  <h3>Billing exceptions</h3>
+                  <div class="sub">Tenants needing payment follow-up — flows into Support Tickets if unresolved past the grace period.</div>
+                  <div class="card">
+                    <table class="data-table">
+                      <tr><th>Venue</th><th>Plan</th><th>Issue</th><th>Days overdue</th><th></th></tr>
+                      <tr>
+                        <td><b>Palm Court Events</b></td><td>Growth</td>
+                        <td><span class="badge blocked">Card declined</span></td>
+                        <td class="mono">3</td>
+                        <td><span class="btn sm ghost">Retry / contact</span></td>
+                      </tr>
+                      <tr>
+                        <td><b>Coastal Celebrations</b></td><td>Starter</td>
+                        <td><span class="badge blocked">Bank mandate failed</span></td>
+                        <td class="mono">1</td>
+                        <td><span class="btn sm ghost">Retry / contact</span></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+ 
+                <div class="section-block">
+                  <h3>Add-ons in use across platform</h3>
+                  <div class="card">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                      <div style="display:flex;justify-content:space-between;padding:8px 10px;background:#F7F8FA;border-radius:6px;"><span>Extra hall (&#8377;499/mo)</span><b class="mono">31 active</b></div>
+                      <div style="display:flex;justify-content:space-between;padding:8px 10px;background:#F7F8FA;border-radius:6px;"><span>WhatsApp credit top-up</span><b class="mono">18 active</b></div>
+                      <div style="display:flex;justify-content:space-between;padding:8px 10px;background:#F7F8FA;border-radius:6px;"><span>3D Layout (Starter/Growth)</span><b class="mono">6 active</b></div>
+                      <div style="display:flex;justify-content:space-between;padding:8px 10px;background:#F7F8FA;border-radius:6px;"><span>Onboarding assistance</span><b class="mono">4 this quarter</b></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+ 
+              <!-- ===== SA: FEATURE FLAGS ===== -->
+              <div class="sa-pane" id="sa-flags" style="display:none;">
+                <div class="card" style="margin-bottom:18px;">
+                  <div style="font-weight:700;font-size:13.5px;margin-bottom:10px;">Module registry</div>
+                  <div class="sub" style="margin-bottom:12px;">Every module on the platform, its default tier, and whether it can ever be disabled.</div>
+                  <table class="data-table">
+                    <tr><th>Module</th><th>Name</th><th>Default tier</th><th>Can disable?</th></tr>
+                    <tr><td class="mono">MOD-BOOKING-01</td><td>Booking Engine</td><td>Starter+</td><td><span class="badge blocked">Core</span></td></tr>
+                    <tr><td class="mono">MOD-RBAC-08</td><td>Staff &amp; RBAC</td><td>Starter+</td><td><span class="badge blocked">Core</span></td></tr>
+                    <tr><td class="mono">MOD-CRM-02</td><td>CRM &amp; Lead Management</td><td>Growth+</td><td><span class="badge confirmed">Optional</span></td></tr>
+                    <tr><td class="mono">MOD-LAYOUT-03</td><td>2D Layout Designer</td><td>Growth+</td><td><span class="badge confirmed">Optional</span></td></tr>
+                    <tr><td class="mono">MOD-LAYOUT3D-04</td><td>3D Visualization</td><td>Pro+</td><td><span class="badge confirmed">Optional</span></td></tr>
+                    <tr><td class="mono">MOD-BILLING-05</td><td>Billing &amp; Payments</td><td>Starter+</td><td><span class="badge confirmed">Optional</span></td></tr>
+                    <tr><td class="mono">MOD-CONTRACT-06</td><td>Contracts &amp; Documents</td><td>Growth+</td><td><span class="badge confirmed">Optional</span></td></tr>
+                    <tr><td class="mono">MOD-VENDOR-07</td><td>Vendor &amp; Event Ops</td><td>Pro+</td><td><span class="badge confirmed">Optional</span></td></tr>
+                    <tr><td class="mono">MOD-INTEL-13</td><td>Demand Intelligence</td><td>Pro+</td><td><span class="badge confirmed">Optional</span></td></tr>
+                  </table>
+                </div>
+ 
+                <div class="section-block" style="margin-top:0;">
+                  <h3>Feature flag control — per tenant</h3>
+                  <div class="sub">Toggle any module on/off for a specific venue, independent of their plan default. Used for trials, custom deals, or temporarily disabling a module under support investigation.</div>
+                  <div class="card">
+                    <div style="font-size:12.5px;font-weight:700;margin-bottom:10px;">Editing: Sapphire Lawns</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                      <div style="display:flex;justify-content:space-between;padding:8px 10px;background:#F7F8FA;border-radius:6px;"><span>MOD-BOOKING-01</span><span class="badge confirmed">On — locked</span></div>
+                      <div style="display:flex;justify-content:space-between;padding:8px 10px;background:#F7F8FA;border-radius:6px;"><span>MOD-LAYOUT-03</span><span class="badge confirmed">On</span></div>
+                      <div style="display:flex;justify-content:space-between;padding:8px 10px;background:#F7F8FA;border-radius:6px;"><span>MOD-LAYOUT3D-04</span><span class="badge neutral">Off</span></div>
+                      <div style="display:flex;justify-content:space-between;padding:8px 10px;background:#F7F8FA;border-radius:6px;"><span>MOD-INTEL-13</span><span class="badge neutral">Off</span></div>
+                      <div style="display:flex;justify-content:space-between;padding:8px 10px;background:#F7F8FA;border-radius:6px;"><span>MOD-VENDOR-07</span><span class="badge neutral">Off</span></div>
+                      <div style="display:flex;justify-content:space-between;padding:8px 10px;background:#F7F8FA;border-radius:6px;"><span>MOD-REFERRAL-12</span><span class="badge neutral">Off</span></div>
+                    </div>
+                  </div>
+                  <div class="note-box">
+                    <b>Dependency check:</b> disabling MOD-LAYOUT-03 for a tenant currently using MOD-LAYOUT3D-04 shows a warning before saving — "3D Visualization depends on this module and will also be disabled." Flags are checked at both the API and frontend layer, never hardcoded.
+                  </div>
+                </div>
+              </div>
+ 
+              <!-- ===== SA: SUPPORT TICKETS ===== -->
+              <div class="sa-pane" id="sa-tickets" style="display:none;">
+                <div class="kpi-row">
+                  <div class="kpi"><div class="kpi-label">Open tickets</div><div class="kpi-value">6</div></div>
+                  <div class="kpi"><div class="kpi-label">Urgent</div><div class="kpi-value" style="color:var(--red);">2</div></div>
+                  <div class="kpi"><div class="kpi-label">Avg first response</div><div class="kpi-value">38m</div></div>
+                  <div class="kpi"><div class="kpi-label">Resolved this week</div><div class="kpi-value">22</div></div>
+                </div>
+                <div class="card">
+                  <table class="data-table">
+                    <tr><th>Ticket</th><th>Tenant</th><th>Subject</th><th>Priority</th><th>Status</th><th></th></tr>
+                    <tr>
+                      <td class="mono">#4821</td><td>Palm Court Events</td><td>Payment retry keeps failing</td>
+                      <td><span class="badge blocked">Urgent</span></td><td><span class="badge softlock">In progress</span></td>
+                      <td><span class="btn sm ghost">Open</span></td>
+                    </tr>
+                    <tr>
+                      <td class="mono">#4819</td><td>Royal Banquet Hall</td><td>Trial extension request</td>
+                      <td><span class="badge blocked">Urgent</span></td><td><span class="badge inquiry">Unassigned</span></td>
+                      <td><span class="btn sm ghost">Open</span></td>
+                    </tr>
+                    <tr>
+                      <td class="mono">#4814</td><td>Heritage Gardens</td><td>Cannot enable MOD-VENDOR-07</td>
+                      <td><span class="badge softlock">Medium</span></td><td><span class="badge softlock">In progress</span></td>
+                      <td><span class="btn sm ghost">Open</span></td>
+                    </tr>
+                    <tr>
+                      <td class="mono">#4810</td><td>Sapphire Lawns</td><td>Question about WhatsApp credit top-up</td>
+                      <td><span class="badge neutral">Low</span></td><td><span class="badge inquiry">Unassigned</span></td>
+                      <td><span class="btn sm ghost">Open</span></td>
+                    </tr>
+                  </table>
+                </div>
+ 
+                <div class="section-block">
+                  <h3>Ticket detail — #4821</h3>
+                  <div class="sub">Cross-tenant support access is read-access with mandatory audit logging, per the platform's security requirements.</div>
+                  <div class="card" style="max-width:560px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+                      <div>
+                        <div style="font-weight:700;font-size:14px;">Payment retry keeps failing</div>
+                        <div style="font-size:11.5px;color:var(--text-faint);">Palm Court Events &middot; Opened 3 days ago &middot; Assigned to Support: Meera J.</div>
+                      </div>
+                      <span class="badge blocked">Urgent</span>
+                    </div>
+                    <div style="font-size:12.5px;color:var(--text-soft);line-height:1.6;margin-bottom:12px;">
+                      Owner reports card payment fails on every retry since 22 Jun. Two manual retries attempted by Support, both declined by the gateway. Escalated to check Razorpay-side mandate status.
+                    </div>
+                    <div class="note-box" style="margin-top:0;margin-bottom:14px;">
+                      <b>Audit log:</b> Meera J. viewed this tenant's billing record on 24 Jun, 11:02 AM and 25 Jun, 10:40 AM — both entries logged automatically per cross-tenant access policy.
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                      <div class="btn sm primary" style="flex:1;justify-content:center;">Retry payment</div>
+                      <div class="btn sm ghost" style="flex:1;justify-content:center;">Escalate to gateway</div>
+                      <div class="btn sm ghost" style="flex:1;justify-content:center;">Mark resolved</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+ 
+              <!-- ===== SA: PLATFORM SETTINGS ===== -->
+              <div class="sa-pane" id="sa-settings" style="display:none;">
+                <div class="section-block" style="margin-top:0;">
+                  <h3>Booking defaults</h3>
+                  <div class="sub">Platform-wide defaults, applied to new tenants — each tenant can later override within their plan's allowed range.</div>
+                  <div class="card" style="max-width:560px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                      <span>Default soft-lock expiry</span><b class="mono">48 hours</b>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                      <span>Tenant-configurable expiry range</span><b class="mono">24&ndash;72 hours</b>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:12.5px;">
+                      <span>Trial length</span><b class="mono">14 days</b>
+                    </div>
+                  </div>
+                </div>
+ 
+                <div class="section-block">
+                  <h3>Demand intelligence data source</h3>
+                  <div class="sub">Open decision per the requirements doc — which panchang/calendar source feeds MOD-INTEL-13's muhurat and festival data.</div>
+                  <div class="card" style="max-width:560px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                      <span>Current source</span><span class="badge softlock">Manually curated &middot; pending vendor decision</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:12.5px;">
+                      <span>Region rule sets configured</span><b class="mono">1 of 5 planned regions (Karnataka)</b>
+                    </div>
+                  </div>
+                </div>
+ 
+                <div class="section-block">
+                  <h3>Payment gateway</h3>
+                  <div class="card" style="max-width:560px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                      <span>Active gateway</span><b>Razorpay</b>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:12.5px;">
+                      <span>Under evaluation</span><span class="badge neutral">PayU &middot; settlement terms comparison pending</span>
+                    </div>
+                  </div>
+                </div>
+ 
+                <div class="section-block">
+                  <h3>Notification channels</h3>
+                  <div class="card" style="max-width:560px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                      <span>WhatsApp</span><span class="badge confirmed">Enabled platform-wide</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                      <span>SMS</span><span class="badge confirmed">Enabled platform-wide</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:12.5px;">
+                      <span>Email</span><span class="badge confirmed">Enabled platform-wide</span>
+                    </div>
+                  </div>
+                  <div class="note-box">
+                    <b>Note:</b> Starter tier includes SMS only; WhatsApp unlocks from Growth tier per the pricing model. This setting controls platform capability, not what a given tenant's plan grants.
+                  </div>
+                </div>
+              </div>
+ 
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ============ VENUE OWNER ============ -->
+    <section class="screen-section" id="screen-owner" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Venue Side &middot; PER-OWNER</div>
+        <h1 class="main-title">Venue Owner Dashboard</h1>
+        <p class="main-desc">Full visibility into one venue's business — revenue, occupancy, staff, and billing. This is the "owner checks from their phone" screen.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/grand-vista/dashboard</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left">
+              <div class="nav-brand-mark" style="width:22px;height:22px;"></div>
+              <div class="topbar-title">Grand Vista Convention</div>
+              <span class="badge neutral">Pro plan</span>
+            </div>
+            <div class="topbar-right">
+              <div class="icon-btn">&#128276;<span class="ping"></span></div>
+              <div class="avatar">RK</div>
+            </div>
+          </div>
+          <div class="tab-strip">
+            <div class="tab owner-tab active" data-owner="owner-overview">Overview</div>
+            <div class="tab owner-tab" data-owner="owner-bookings">Bookings</div>
+            <div class="tab owner-tab" data-owner="owner-staff">Staff</div>
+            <div class="tab owner-tab" data-owner="owner-billing">Billing &amp; Plan</div>
+            <div class="tab owner-tab" data-owner="owner-reports">Reports</div>
+            <div class="tab owner-tab" data-owner="owner-settings">Settings</div>
+          </div>
+          <div class="app-content">
+ 
+            <!-- ===== OWNER: OVERVIEW ===== -->
+            <div class="owner-pane" id="owner-overview">
+              <div class="kpi-row">
+                <div class="kpi"><div class="kpi-label">This month revenue</div><div class="kpi-value">&#8377;18.2L</div><div class="kpi-delta up">+22% vs last month</div></div>
+                <div class="kpi"><div class="kpi-label">Occupancy rate</div><div class="kpi-value">68%</div><div class="kpi-delta up">+5pts</div></div>
+                <div class="kpi"><div class="kpi-label">Confirmed bookings</div><div class="kpi-value">19</div><div class="kpi-delta" style="color:var(--text-faint);">across 4 halls</div></div>
+                <div class="kpi"><div class="kpi-label">Soft-locks expiring &lt;48h</div><div class="kpi-value" style="color:var(--amber);">3</div><div class="kpi-delta" style="color:var(--amber);">needs follow-up</div></div>
+              </div>
+ 
+              <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:16px;">
+                <div class="card">
+                  <div style="font-weight:700;font-size:13.5px;margin-bottom:12px;">Revenue trend — last 6 months</div>
+                  <div style="display:flex;align-items:flex-end;gap:10px;height:120px;">
+                    <div style="flex:1;background:#E4E7EB;border-radius:4px 4px 0 0;height:50%;"></div>
+                    <div style="flex:1;background:#E4E7EB;border-radius:4px 4px 0 0;height:65%;"></div>
+                    <div style="flex:1;background:#E4E7EB;border-radius:4px 4px 0 0;height:45%;"></div>
+                    <div style="flex:1;background:#E4E7EB;border-radius:4px 4px 0 0;height:78%;"></div>
+                    <div style="flex:1;background:#E4E7EB;border-radius:4px 4px 0 0;height:60%;"></div>
+                    <div style="flex:1;background:var(--teal);border-radius:4px 4px 0 0;height:95%;"></div>
+                  </div>
+                  <div style="display:flex;gap:10px;margin-top:6px;">
+                    <div style="flex:1;text-align:center;font-size:10.5px;color:var(--text-faint);">Jan</div>
+                    <div style="flex:1;text-align:center;font-size:10.5px;color:var(--text-faint);">Feb</div>
+                    <div style="flex:1;text-align:center;font-size:10.5px;color:var(--text-faint);">Mar</div>
+                    <div style="flex:1;text-align:center;font-size:10.5px;color:var(--text-faint);">Apr</div>
+                    <div style="flex:1;text-align:center;font-size:10.5px;color:var(--text-faint);">May</div>
+                    <div style="flex:1;text-align:center;font-size:10.5px;color:var(--navy);font-weight:700;">Jun</div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div style="font-weight:700;font-size:13.5px;margin-bottom:12px;">Referral source breakdown</div>
+                  <div style="display:flex;flex-direction:column;gap:9px;">
+                    <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Wedding planners</span><b>&#8377;6.1L</b></div>
+                    <div style="height:6px;background:var(--teal);border-radius:3px;width:78%;"></div>
+                    <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Direct / walk-in</span><b>&#8377;3.4L</b></div>
+                    <div style="height:6px;background:var(--blue);border-radius:3px;width:44%;"></div>
+                    <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Instagram</span><b>&#8377;1.9L</b></div>
+                    <div style="height:6px;background:var(--purple);border-radius:3px;width:25%;"></div>
+                  </div>
+                </div>
+              </div>
+ 
+              <div class="section-block" style="margin-top:20px;">
+                <div class="card">
+                  <div style="font-weight:700;font-size:13.5px;margin-bottom:12px;">Staff &amp; roles</div>
+                  <table class="data-table">
+                    <tr><th>Name</th><th>Role</th><th>Hall access</th><th>Status</th></tr>
+                    <tr><td>Priya N.</td><td>Venue Manager</td><td>All halls</td><td><span class="badge confirmed">Active</span></td></tr>
+                    <tr><td>Arjun K.</td><td>Sales Agent</td><td>Hall A, B</td><td><span class="badge confirmed">Active</span></td></tr>
+                    <tr><td>Lakshmi R.</td><td>Accounts</td><td>Billing only</td><td><span class="badge confirmed">Active</span></td></tr>
+                    <tr><td>Suresh M.</td><td>Front Desk</td><td>Hall C, D</td><td><span class="badge neutral">Invited</span></td></tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+ 
+            <!-- ===== OWNER: BOOKINGS ===== -->
+            <div class="owner-pane" id="owner-bookings" style="display:none;">
+              <div class="kpi-row">
+                <div class="kpi"><div class="kpi-label">Confirmed</div><div class="kpi-value">19</div></div>
+                <div class="kpi"><div class="kpi-label">Soft-locked</div><div class="kpi-value" style="color:var(--amber);">5</div></div>
+                <div class="kpi"><div class="kpi-label">Open inquiries</div><div class="kpi-value">14</div></div>
+                <div class="kpi"><div class="kpi-label">Cancelled this month</div><div class="kpi-value" style="color:var(--text-faint);">2</div></div>
+              </div>
+              <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                  <div style="font-weight:700;font-size:13.5px;">All bookings — across halls</div>
+                  <div class="btn sm ghost">Open full calendar</div>
+                </div>
+                <table class="data-table">
+                  <tr><th>Date</th><th>Hall</th><th>Customer</th><th>Value</th><th>Stage</th><th></th></tr>
+                  <tr>
+                    <td class="mono">25 Jun</td><td>Hall A</td><td>Sharma&ndash;Iyer Wedding</td><td class="mono">&#8377;6,80,000</td>
+                    <td><span class="badge confirmed">Confirmed</span></td><td><span class="btn sm ghost">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">14 Aug</td><td>Hall B</td><td>Vikram &amp; Anita</td><td class="mono">&#8377;6,00,000</td>
+                    <td><span class="badge softlock">Soft Lock &middot; 6h 12m</span></td><td><span class="btn sm ghost">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">22 Sep</td><td>Hall A</td><td>Reddy Family</td><td class="mono">&#8377;9,50,000</td>
+                    <td><span class="badge softlock">Soft Lock &middot; 19h 40m</span></td><td><span class="btn sm ghost">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">3 Oct</td><td>Hall D</td><td>Infyx Corp</td><td class="mono">&#8377;2,40,000</td>
+                    <td><span class="badge confirmed">Confirmed</span></td><td><span class="btn sm ghost">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">5 Nov</td><td>Hall C</td><td>Naveen S.</td><td class="mono">&#8377;2,58,000</td>
+                    <td><span class="badge inquiry">Inquiry</span></td><td><span class="btn sm ghost">Open</span></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="note-box">
+                <b>Owner scope:</b> Owner can view and drill into any booking across all halls, same as Manager, but day-to-day soft-lock/confirm actions are typically performed by Sales Agent or Manager — Owner's view here is oversight-first, with the same actions available if needed.
+              </div>
+            </div>
+ 
+            <!-- ===== OWNER: STAFF ===== -->
+            <div class="owner-pane" id="owner-staff" style="display:none;">
+              <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                  <div style="font-weight:700;font-size:13.5px;">Staff &amp; roles <span style="color:var(--text-faint);font-weight:500;">(4)</span></div>
+                  <div class="btn sm primary">+ Invite staff</div>
+                </div>
+                <table class="data-table">
+                  <tr><th>Name</th><th>Role</th><th>Hall access</th><th>Status</th><th></th></tr>
+                  <tr><td>Priya N.</td><td>Venue Manager</td><td>All halls</td><td><span class="badge confirmed">Active</span></td><td><span class="btn sm ghost">Edit</span></td></tr>
+                  <tr><td>Arjun K.</td><td>Sales Agent</td><td>Hall A, B</td><td><span class="badge confirmed">Active</span></td><td><span class="btn sm ghost">Edit</span></td></tr>
+                  <tr><td>Lakshmi R.</td><td>Accounts</td><td>Billing only</td><td><span class="badge confirmed">Active</span></td><td><span class="btn sm ghost">Edit</span></td></tr>
+                  <tr><td>Suresh M.</td><td>Front Desk</td><td>Hall C, D</td><td><span class="badge neutral">Invited</span></td><td><span class="btn sm ghost">Resend</span></td></tr>
+                </table>
+              </div>
+ 
+              <div class="section-block">
+                <h3>Role &amp; permission matrix</h3>
+                <div class="sub">Owner is the only persona who can edit what each role is allowed to do — see the dedicated Staff &amp; RBAC Editor for the full checkbox grid.</div>
+                <div class="card" style="max-width:480px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                    <span>Manager</span><span class="badge neutral">Full operational access</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                    <span>Sales Agent</span><span class="badge neutral">CRM + soft-lock only</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                    <span>Accounts</span><span class="badge neutral">Billing only</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:12.5px;">
+                    <span>Front Desk</span><span class="badge neutral">View + day-of checklist</span>
+                  </div>
+                  <div class="btn sm ghost" style="width:100%;justify-content:center;margin-top:12px;">Open full RBAC editor</div>
+                </div>
+              </div>
+            </div>
+ 
+            <!-- ===== OWNER: BILLING & PLAN ===== -->
+            <div class="owner-pane" id="owner-billing" style="display:none;">
+              <div class="kpi-row">
+                <div class="kpi"><div class="kpi-label">Current plan</div><div class="kpi-value" style="font-size:18px;">Pro</div><div class="kpi-delta" style="color:var(--text-faint);">&#8377;9,999/mo</div></div>
+                <div class="kpi"><div class="kpi-label">Halls used</div><div class="kpi-value">4 / 6</div></div>
+                <div class="kpi"><div class="kpi-label">Outstanding</div><div class="kpi-value" style="color:var(--amber);">&#8377;4.8L</div></div>
+                <div class="kpi"><div class="kpi-label">Next billing date</div><div class="kpi-value" style="font-size:16px;">1 Jul</div></div>
+              </div>
+ 
+              <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                  <div style="font-weight:700;font-size:13.5px;">Subscription</div>
+                  <div style="display:flex;gap:8px;">
+                    <div class="btn sm ghost">Change plan</div>
+                    <div class="btn sm ghost">Update payment method</div>
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;">
+                  <div><span style="color:var(--text-faint);">Plan</span><br><b>Pro &middot; &#8377;9,999/mo</b></div>
+                  <div><span style="color:var(--text-faint);">Billing cycle</span><br><b>Monthly</b></div>
+                  <div><span style="color:var(--text-faint);">Add-ons active</span><br><b>1 extra hall (&#8377;499/mo)</b></div>
+                  <div><span style="color:var(--text-faint);">Payment method</span><br><b class="mono">UPI &middot; r***@upi</b></div>
+                </div>
+              </div>
+ 
+              <div class="section-block">
+                <h3>Recent invoices</h3>
+                <div class="card">
+                  <table class="data-table">
+                    <tr><th>Invoice</th><th>Customer</th><th>Amount</th><th>Due</th><th>Status</th></tr>
+                    <tr><td class="mono">INV-2026-0142</td><td>Sharma&ndash;Iyer</td><td class="mono">&#8377;3,20,000</td><td class="mono">25 Jun</td><td><span class="badge confirmed">Paid</span></td></tr>
+                    <tr><td class="mono">INV-2026-0143</td><td>Reddy Family</td><td class="mono">&#8377;1,10,000</td><td class="mono">28 Jun</td><td><span class="badge softlock">Advance due</span></td></tr>
+                    <tr><td class="mono">INV-2026-0139</td><td>Infyx Corp</td><td class="mono">&#8377;2,40,000</td><td class="mono">18 Jun</td><td><span class="badge blocked">Overdue 7d</span></td></tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+ 
+            <!-- ===== OWNER: REPORTS ===== -->
+            <div class="owner-pane" id="owner-reports" style="display:none;">
+              <div class="kpi-row">
+                <div class="kpi"><div class="kpi-label">Lead conversion rate</div><div class="kpi-value">42%</div><div class="kpi-delta up">+4pts</div></div>
+                <div class="kpi"><div class="kpi-label">Avg booking value</div><div class="kpi-value">&#8377;4.6L</div></div>
+                <div class="kpi"><div class="kpi-label">Cancellation rate</div><div class="kpi-value" style="color:var(--red);">6%</div></div>
+                <div class="kpi"><div class="kpi-label">Referral partner share</div><div class="kpi-value">33%</div></div>
+              </div>
+ 
+              <div class="card">
+                <div style="font-weight:700;font-size:13.5px;margin-bottom:12px;">Occupancy by hall — this month</div>
+                <div style="display:flex;flex-direction:column;gap:9px;">
+                  <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Hall A</span><b>78%</b></div>
+                  <div style="height:6px;background:var(--teal);border-radius:3px;width:78%;"></div>
+                  <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Hall B</span><b>61%</b></div>
+                  <div style="height:6px;background:var(--teal);border-radius:3px;width:61%;"></div>
+                  <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Hall C</span><b>54%</b></div>
+                  <div style="height:6px;background:var(--blue);border-radius:3px;width:54%;"></div>
+                  <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Hall D</span><b>39%</b></div>
+                  <div style="height:6px;background:var(--amber);border-radius:3px;width:39%;"></div>
+                </div>
+              </div>
+ 
+              <div class="section-block">
+                <h3>Lost-lead reasons</h3>
+                <div class="sub">From <span class="mono">MOD-CRM-02</span> lost-lead tracking — helps Owner see where deals slip.</div>
+                <div class="card">
+                  <table class="data-table">
+                    <tr><th>Reason</th><th>Count this month</th><th>Share</th></tr>
+                    <tr><td>Date unavailable</td><td class="mono">7</td><td><span class="badge neutral">35%</span></td></tr>
+                    <tr><td>Lost to competitor</td><td class="mono">6</td><td><span class="badge neutral">30%</span></td></tr>
+                    <tr><td>Price</td><td class="mono">5</td><td><span class="badge neutral">25%</span></td></tr>
+                    <tr><td>Other / no response</td><td class="mono">2</td><td><span class="badge neutral">10%</span></td></tr>
+                  </table>
+                </div>
+              </div>
+              <div class="note-box">
+                <b>Export:</b> Owner-level reports can be exported as PDF/CSV for board or investor updates — Manager's Reports tab shows the same data scoped to operations, without the financial export option.
+              </div>
+            </div>
+ 
+            <!-- ===== OWNER: SETTINGS ===== -->
+            <div class="owner-pane" id="owner-settings" style="display:none;">
+              <div class="section-block" style="margin-top:0;">
+                <h3>Venue profile</h3>
+                <div class="card" style="max-width:560px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                    <span>Venue name</span><b>Grand Vista Convention</b>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                    <span>Halls</span><b>4 (Hall A&ndash;D)</b>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:12.5px;">
+                    <span>Region (for demand intel)</span><b>Karnataka</b>
+                  </div>
+                </div>
+              </div>
+ 
+              <div class="section-block">
+                <h3>Booking policy</h3>
+                <div class="card" style="max-width:560px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                    <span>Soft-lock expiry</span><b class="mono">48 hours</b>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:12.5px;">
+                    <span>Refund policy</span><b>Slab-based &middot; 3 tiers configured</b>
+                  </div>
+                </div>
+              </div>
+ 
+              <div class="section-block">
+                <h3>Module toggles — within Pro plan</h3>
+                <div class="sub">Owner can self-serve enable/disable optional modules included in their plan; modules above their tier require an upgrade.</div>
+                <div class="card" style="max-width:560px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                    <span>Vendor &amp; Event Ops</span>
+                    <div style="width:34px;height:18px;border-radius:10px;background:var(--teal);position:relative;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;"></div></div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                    <span>Referral &amp; Agent Management</span>
+                    <div style="width:34px;height:18px;border-radius:10px;background:var(--teal);position:relative;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;"></div></div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:12.5px;">
+                    <span>3D Visualization (Level 1)</span>
+                    <div style="width:34px;height:18px;border-radius:10px;background:var(--teal);position:relative;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+ 
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ============ VENUE MANAGER ============ -->
+    <section class="screen-section" id="screen-manager" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Venue Side &middot; PER-MANAGER</div>
+        <h1 class="main-title">Venue Manager Dashboard</h1>
+        <p class="main-desc">Operational view — today's events, pending approvals, and the action items that need a decision today. Same tab structure as Owner, scoped to day-to-day operations — no subscription or plan-change rights.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/grand-vista/manager</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left">
+              <div class="nav-brand-mark" style="width:22px;height:22px;"></div>
+              <div class="topbar-title">Today &middot; Wed, 25 Jun</div>
+            </div>
+            <div class="topbar-right">
+              <div class="icon-btn">&#128276;<span class="ping"></span></div>
+              <div class="avatar">PN</div>
+            </div>
+          </div>
+          <div class="tab-strip">
+            <div class="tab manager-tab active" data-manager="manager-overview">Overview</div>
+            <div class="tab manager-tab" data-manager="manager-bookings">Bookings</div>
+            <div class="tab manager-tab" data-manager="manager-staff">Staff</div>
+            <div class="tab manager-tab" data-manager="manager-billing">Billing &amp; Plan</div>
+            <div class="tab manager-tab" data-manager="manager-reports">Reports</div>
+            <div class="tab manager-tab" data-manager="manager-settings">Settings</div>
+          </div>
+          <div class="app-content">
+ 
+            <!-- ===== MANAGER: OVERVIEW (Today) ===== -->
+            <div class="manager-pane" id="manager-overview">
+              <div class="section-block" style="margin-top:0;">
+                <h3>Today's events</h3>
+                <div class="card" style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;">
+                  <div>
+                    <b>Sharma–Iyer Wedding</b> &middot; Hall A &middot; 350 guests
+                    <div style="font-size:11.5px;color:var(--text-faint);margin-top:2px;">Setup from 6:00 AM &middot; Caterer: Spice Route &middot; Decor: Bloom Studio</div>
+                  </div>
+                  <span class="badge confirmed">On track</span>
+                </div>
+                <div class="card" style="display:flex;justify-content:space-between;align-items:center;">
+                  <div>
+                    <b>TechNova Annual Meet</b> &middot; Hall C &middot; 180 guests
+                    <div style="font-size:11.5px;color:var(--text-faint);margin-top:2px;">Setup from 8:00 AM &middot; AV team yet to confirm arrival</div>
+                  </div>
+                  <span class="badge softlock">Needs attention</span>
+                </div>
+              </div>
+ 
+              <div class="section-block">
+                <h3>Soft-locks expiring soon</h3>
+                <div class="sub">Held dates where the advance hasn't been paid yet — auto-release if not converted before the timer ends.</div>
+                <table class="data-table">
+                  <tr><th>Date</th><th>Hall</th><th>Customer</th><th>Locked by</th><th>Expires in</th><th></th></tr>
+                  <tr>
+                    <td class="mono">14 Aug</td><td>Hall B</td><td>Vikram &amp; Anita</td><td>Arjun K.</td>
+                    <td><span class="badge softlock">6h 12m</span></td>
+                    <td><span class="btn sm primary">Extend</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">22 Sep</td><td>Hall A</td><td>Reddy Family</td><td>Arjun K.</td>
+                    <td><span class="badge softlock">19h 40m</span></td>
+                    <td><span class="btn sm primary">Extend</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">3 Oct</td><td>Hall D</td><td>Corporate — Infyx</td><td>Priya N.</td>
+                    <td><span class="badge blocked">1h 02m</span></td>
+                    <td><span class="btn sm primary">Extend</span></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+ 
+            <!-- ===== MANAGER: BOOKINGS ===== -->
+            <div class="manager-pane" id="manager-bookings" style="display:none;">
+              <div class="kpi-row">
+                <div class="kpi"><div class="kpi-label">Confirmed</div><div class="kpi-value">19</div></div>
+                <div class="kpi"><div class="kpi-label">Soft-locked</div><div class="kpi-value" style="color:var(--amber);">5</div></div>
+                <div class="kpi"><div class="kpi-label">Open inquiries</div><div class="kpi-value">14</div></div>
+                <div class="kpi"><div class="kpi-label">Waitlisted</div><div class="kpi-value">2</div></div>
+              </div>
+              <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                  <div style="font-weight:700;font-size:13.5px;">Booking calendar &amp; pipeline</div>
+                  <div class="btn sm primary">+ New soft-lock</div>
+                </div>
+                <table class="data-table">
+                  <tr><th>Date</th><th>Hall</th><th>Customer</th><th>Slot</th><th>Stage</th><th></th></tr>
+                  <tr>
+                    <td class="mono">14 Aug</td><td>Hall B</td><td>Vikram &amp; Anita</td><td>Full day</td>
+                    <td><span class="badge softlock">Soft Lock</span></td><td><span class="btn sm primary">Confirm</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">22 Sep</td><td>Hall A</td><td>Reddy Family</td><td>Full day</td>
+                    <td><span class="badge softlock">Soft Lock</span></td><td><span class="btn sm primary">Confirm</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">5 Nov</td><td>Hall C</td><td>Naveen S.</td><td>Evening</td>
+                    <td><span class="badge inquiry">Inquiry</span></td><td><span class="btn sm ghost">Assign agent</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">12 Dec</td><td>Hall D</td><td>Waitlist &middot; 2 parties</td><td>Full day</td>
+                    <td><span class="badge neutral">Waitlisted</span></td><td><span class="btn sm ghost">Notify on release</span></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="note-box">
+                <b>Manager scope:</b> Manager confirms or cancels bookings and manages the soft-lock pipeline day-to-day — the same DB-level double-booking protection applies regardless of who performs the action.
+              </div>
+            </div>
+ 
+            <!-- ===== MANAGER: STAFF ===== -->
+            <div class="manager-pane" id="manager-staff" style="display:none;">
+              <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                  <div style="font-weight:700;font-size:13.5px;">Staff on shift today</div>
+                  <div class="btn sm ghost">View full roster</div>
+                </div>
+                <table class="data-table">
+                  <tr><th>Name</th><th>Role</th><th>Assigned today</th><th>Status</th></tr>
+                  <tr><td>Arjun K.</td><td>Sales Agent</td><td>Follow-ups &middot; Hall A, B</td><td><span class="badge confirmed">On shift</span></td></tr>
+                  <tr><td>Lakshmi R.</td><td>Accounts</td><td>Invoice reminders</td><td><span class="badge confirmed">On shift</span></td></tr>
+                  <tr><td>Suresh M.</td><td>Front Desk</td><td>Sharma&ndash;Iyer Wedding setup</td><td><span class="badge confirmed">On shift</span></td></tr>
+                </table>
+              </div>
+ 
+              <div class="section-block">
+                <h3>Task assignment</h3>
+                <div class="sub">Manager assigns day-to-day tasks and follow-ups to staff — does not add/remove staff accounts or edit role permissions (Owner-only).</div>
+                <div class="card" style="max-width:480px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                    <span>Follow up: Naveen S. (Hall C inquiry)</span><span class="badge softlock">Today 3 PM</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                    <span>Confirm AV vendor arrival — TechNova</span><span class="badge blocked">Overdue</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:12.5px;">
+                    <span>Finalize Jain meal count — Sharma&ndash;Iyer</span><span class="badge confirmed">Done</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+ 
+            <!-- ===== MANAGER: BILLING & PLAN ===== -->
+            <div class="manager-pane" id="manager-billing" style="display:none;">
+              <div class="kpi-row">
+                <div class="kpi"><div class="kpi-label">Outstanding</div><div class="kpi-value" style="color:var(--amber);">&#8377;4.8L</div></div>
+                <div class="kpi"><div class="kpi-label">Collected this month</div><div class="kpi-value">&#8377;18.2L</div></div>
+                <div class="kpi"><div class="kpi-label">Overdue invoices</div><div class="kpi-value" style="color:var(--red);">2</div></div>
+                <div class="kpi"><div class="kpi-label">Plan</div><div class="kpi-value" style="font-size:16px;">Pro</div></div>
+              </div>
+              <div class="card">
+                <table class="data-table">
+                  <tr><th>Invoice</th><th>Customer</th><th>Amount</th><th>Due</th><th>Status</th><th></th></tr>
+                  <tr>
+                    <td class="mono">INV-2026-0143</td><td>Reddy Family</td><td class="mono">&#8377;1,10,000</td><td class="mono">28 Jun</td>
+                    <td><span class="badge softlock">Advance due</span></td><td><span class="btn sm ghost">Remind</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">INV-2026-0139</td><td>Infyx Corp</td><td class="mono">&#8377;2,40,000</td><td class="mono">18 Jun</td>
+                    <td><span class="badge blocked">Overdue 7d</span></td><td><span class="btn sm ghost">Remind</span></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="note-box">
+                <b>Manager scope:</b> Manager can view invoice status and trigger payment reminders, but cannot change the venue's subscription plan, payment method, or add-ons — those actions are Owner-only and won't appear here.
+              </div>
+            </div>
+ 
+            <!-- ===== MANAGER: REPORTS ===== -->
+            <div class="manager-pane" id="manager-reports" style="display:none;">
+              <div class="kpi-row">
+                <div class="kpi"><div class="kpi-label">Occupancy rate</div><div class="kpi-value">68%</div><div class="kpi-delta up">+5pts</div></div>
+                <div class="kpi"><div class="kpi-label">Lead conversion</div><div class="kpi-value">42%</div></div>
+                <div class="kpi"><div class="kpi-label">Cancellation rate</div><div class="kpi-value" style="color:var(--red);">6%</div></div>
+                <div class="kpi"><div class="kpi-label">Avg follow-up time</div><div class="kpi-value">3.2h</div></div>
+              </div>
+              <div class="card">
+                <div style="font-weight:700;font-size:13.5px;margin-bottom:12px;">Weekday vs weekend occupancy</div>
+                <div style="display:flex;align-items:flex-end;gap:14px;height:90px;">
+                  <div style="flex:1;text-align:center;"><div style="height:25%;background:#D7DEE5;border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Mon</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:22%;background:#D7DEE5;border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Tue</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:35%;background:#D7DEE5;border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Wed</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:40%;background:#D7DEE5;border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Thu</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:70%;background:var(--amber);border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Fri</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:95%;background:var(--teal);border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Sat</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:88%;background:var(--teal);border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Sun</div></div>
+                </div>
+              </div>
+              <div class="note-box">
+                <b>Manager scope:</b> same underlying report data Owner sees, focused on operational metrics — no financial export to PDF/CSV for investor-style reporting (Owner-only).
+              </div>
+            </div>
+ 
+            <!-- ===== MANAGER: SETTINGS ===== -->
+            <div class="manager-pane" id="manager-settings" style="display:none;">
+              <div class="section-block" style="margin-top:0;">
+                <h3>Pricing &amp; packages</h3>
+                <div class="sub">Manager can edit pricing and packages day-to-day — module enable/disable and subscription settings stay with Owner.</div>
+                <div class="card" style="max-width:560px;">
+                  <table class="data-table">
+                    <tr><th>Package</th><th>Hall</th><th>Price</th></tr>
+                    <tr><td>Full-day &middot; up to 300 guests</td><td>Hall A</td><td class="mono">&#8377;1,80,000</td></tr>
+                    <tr><td>Evening &middot; up to 150 guests</td><td>Hall C</td><td class="mono">&#8377;1,10,000</td></tr>
+                    <tr><td>Full-day &middot; up to 200 guests</td><td>Hall D</td><td class="mono">&#8377;1,40,000</td></tr>
+                  </table>
+                  <div class="btn sm ghost" style="margin-top:10px;">+ Add package</div>
+                </div>
+              </div>
+ 
+              <div class="section-block">
+                <h3>Soft-lock timer</h3>
+                <div class="card" style="max-width:560px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:12.5px;">
+                    <span>Current expiry window</span><b class="mono">48 hours</b>
+                  </div>
+                </div>
+              </div>
+ 
+              <div class="note-box">
+                <b>Manager scope:</b> Billing/plan settings, module toggles, and staff role-permission edits are not shown here — those remain on the Owner's Settings tab.
+              </div>
+            </div>
+ 
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ============ SALES AGENT ============ -->
+    <section class="screen-section" id="screen-sales" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Venue Side &middot; PER-SALES</div>
+        <h1 class="main-title">Sales Agent — Lead &amp; Booking View</h1>
+        <p class="main-desc">CRM-first view for the person fielding inquiries day to day — pipeline, follow-ups due, and quick soft-lock action.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/grand-vista/leads</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left"><div class="topbar-title">My leads</div></div>
+            <div class="topbar-right"><div class="btn sm primary">+ New inquiry</div><div class="avatar">AK</div></div>
+          </div>
+          <div class="app-content">
+            <div class="kpi-row">
+              <div class="kpi"><div class="kpi-label">Open inquiries</div><div class="kpi-value">14</div></div>
+              <div class="kpi"><div class="kpi-label">Soft-locked</div><div class="kpi-value">5</div></div>
+              <div class="kpi"><div class="kpi-label">Follow-ups due today</div><div class="kpi-value" style="color:var(--amber);">3</div></div>
+              <div class="kpi"><div class="kpi-label">Converted this month</div><div class="kpi-value">9</div></div>
+            </div>
+            <div class="card">
+              <table class="data-table">
+                <tr><th>Customer</th><th>Date wanted</th><th>Source</th><th>Stage</th><th>Follow-up</th><th></th></tr>
+                <tr>
+                  <td><b>Vikram &amp; Anita</b><br><span style="color:var(--text-faint);font-size:11px;">Hall B &middot; 250 guests</span></td>
+                  <td class="mono">14 Aug</td><td>Instagram</td>
+                  <td><span class="badge softlock">Soft Lock</span></td>
+                  <td class="mono" style="color:var(--amber);">Today 5 PM</td>
+                  <td><span class="btn sm ghost">Open</span></td>
+                </tr>
+                <tr>
+                  <td><b>Reddy Family</b><br><span style="color:var(--text-faint);font-size:11px;">Hall A &middot; 400 guests</span></td>
+                  <td class="mono">22 Sep</td><td>Wedding planner</td>
+                  <td><span class="badge softlock">Soft Lock</span></td>
+                  <td class="mono">Tomorrow</td>
+                  <td><span class="btn sm ghost">Open</span></td>
+                </tr>
+                <tr>
+                  <td><b>Naveen S.</b><br><span style="color:var(--text-faint);font-size:11px;">Hall C &middot; 120 guests</span></td>
+                  <td class="mono">5 Nov</td><td>Walk-in</td>
+                  <td><span class="badge inquiry">Inquiry</span></td>
+                  <td class="mono" style="color:var(--amber);">Today 3 PM</td>
+                  <td><span class="btn sm ghost">Open</span></td>
+                </tr>
+                <tr>
+                  <td><b>Infyx Corp</b><br><span style="color:var(--text-faint);font-size:11px;">Hall D &middot; 180 guests</span></td>
+                  <td class="mono">3 Oct</td><td>Direct</td>
+                  <td><span class="badge confirmed">Confirmed</span></td>
+                  <td class="mono" style="color:var(--text-faint);">—</td>
+                  <td><span class="btn sm ghost">Open</span></td>
+                </tr>
+              </table>
+            </div>
+ 
+            <div class="section-block">
+              <h3>Quotation builder (quick view)</h3>
+              <div class="card" style="max-width:480px;">
+                <div style="font-size:12.5px;font-weight:700;margin-bottom:10px;">New quote — Naveen S.</div>
+                <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--line);"><span>Hall C — Full day</span><span class="mono">&#8377;1,40,000</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--line);"><span>Catering (120 pax)</span><span class="mono">&#8377;96,000</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;"><span>Basic decor package</span><span class="mono">&#8377;22,000</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13.5px;font-weight:700;padding:10px 0;border-top:1px solid var(--navy);margin-top:4px;"><span>Total</span><span class="mono">&#8377;2,58,000</span></div>
+                <div style="display:flex;gap:8px;margin-top:6px;">
+                  <div class="btn sm primary" style="flex:1;justify-content:center;">Send via WhatsApp</div>
+                  <div class="btn sm ghost" style="flex:1;justify-content:center;">Download PDF</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ============ ACCOUNTS ============ -->
+    <section class="screen-section" id="screen-accounts" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Venue Side &middot; PER-ACCOUNTS</div>
+        <h1 class="main-title">Accounts &amp; Billing Staff</h1>
+        <p class="main-desc">Narrow, billing-only view — invoices, payment status, refunds. No access to create or modify bookings.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/grand-vista/billing</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left"><div class="topbar-title">Billing &amp; Invoices</div></div>
+            <div class="topbar-right"><div class="btn sm primary">+ New invoice</div><div class="avatar">LR</div></div>
+          </div>
+          <div class="app-content">
+            <div class="kpi-row">
+              <div class="kpi"><div class="kpi-label">Outstanding</div><div class="kpi-value" style="color:var(--amber);">&#8377;4.8L</div></div>
+              <div class="kpi"><div class="kpi-label">Collected this month</div><div class="kpi-value">&#8377;18.2L</div></div>
+              <div class="kpi"><div class="kpi-label">Overdue invoices</div><div class="kpi-value" style="color:var(--red);">2</div></div>
+              <div class="kpi"><div class="kpi-label">Refunds pending</div><div class="kpi-value">1</div></div>
+            </div>
+            <div class="card">
+              <table class="data-table">
+                <tr><th>Invoice</th><th>Customer</th><th>Amount</th><th>Due</th><th>Status</th><th></th></tr>
+                <tr>
+                  <td class="mono">INV-2026-0142</td><td>Sharma–Iyer</td><td class="mono">&#8377;3,20,000</td><td class="mono">25 Jun</td>
+                  <td><span class="badge confirmed">Paid</span></td><td><span class="btn sm ghost">View</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">INV-2026-0143</td><td>Reddy Family</td><td class="mono">&#8377;1,10,000</td><td class="mono">28 Jun</td>
+                  <td><span class="badge softlock">Advance due</span></td><td><span class="btn sm ghost">Remind</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">INV-2026-0139</td><td>Infyx Corp</td><td class="mono">&#8377;2,40,000</td><td class="mono">18 Jun</td>
+                  <td><span class="badge blocked">Overdue 7d</span></td><td><span class="btn sm ghost">Remind</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">INV-2026-0136</td><td>Naveen S.</td><td class="mono">&#8377;58,000</td><td class="mono">—</td>
+                  <td><span class="badge neutral">Refund pending</span></td><td><span class="btn sm ghost">Process</span></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ============ GROUP ADMIN ============ -->
+    <section class="screen-section" id="screen-groupadmin" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Venue Side &middot; PER-GROUPADMIN</div>
+        <h1 class="main-title">Multi-Venue Group Admin Dashboard</h1>
+        <p class="main-desc">For a chain or group owning multiple properties — one rollup view across all venues, with the ability to drill into any single venue's own dashboard.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/group/heritage-venues/overview</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left">
+              <div class="nav-brand-mark" style="width:22px;height:22px;"></div>
+              <div class="topbar-title">Heritage Venues Group</div>
+              <span class="badge neutral">5 properties</span>
+            </div>
+            <div class="topbar-right">
+              <div class="icon-btn">&#128276;<span class="ping"></span></div>
+              <div class="avatar">HV</div>
+            </div>
+          </div>
+          <div class="tab-strip">
+            <div class="tab active">Group Overview</div>
+            <div class="tab">Compare Venues</div>
+            <div class="tab">Consolidated Billing</div>
+            <div class="tab">Staff Across Venues</div>
+          </div>
+          <div class="app-content">
+            <div class="kpi-row">
+              <div class="kpi"><div class="kpi-label">Group revenue (MTD)</div><div class="kpi-value">&#8377;61.4L</div><div class="kpi-delta up">+15% vs last month</div></div>
+              <div class="kpi"><div class="kpi-label">Group occupancy</div><div class="kpi-value">61%</div><div class="kpi-delta up">+3pts</div></div>
+              <div class="kpi"><div class="kpi-label">Total confirmed bookings</div><div class="kpi-value">74</div></div>
+              <div class="kpi"><div class="kpi-label">Underperforming venues</div><div class="kpi-value" style="color:var(--amber);">1</div></div>
+            </div>
+ 
+            <div class="card" style="margin-bottom:18px;">
+              <div style="font-weight:700;font-size:13.5px;margin-bottom:12px;">Venue comparison</div>
+              <table class="data-table">
+                <tr><th>Venue</th><th>City</th><th>Halls</th><th>Occupancy</th><th>Revenue (MTD)</th><th>Trend</th><th></th></tr>
+                <tr>
+                  <td><b>Grand Vista Convention</b></td><td>Bangalore</td><td>4</td>
+                  <td><span style="color:var(--teal);font-weight:700;">68%</span></td>
+                  <td class="mono">&#8377;18.2L</td>
+                  <td><span class="badge confirmed">&#8593; Up</span></td>
+                  <td><span class="btn sm ghost">Open</span></td>
+                </tr>
+                <tr>
+                  <td><b>Heritage Palace Lawns</b></td><td>Mysore</td><td>2</td>
+                  <td><span style="color:var(--teal);font-weight:700;">74%</span></td>
+                  <td class="mono">&#8377;14.6L</td>
+                  <td><span class="badge confirmed">&#8593; Up</span></td>
+                  <td><span class="btn sm ghost">Open</span></td>
+                </tr>
+                <tr>
+                  <td><b>Sapphire Banquets</b></td><td>Hubli</td><td>2</td>
+                  <td><span style="color:var(--amber);font-weight:700;">38%</span></td>
+                  <td class="mono">&#8377;6.1L</td>
+                  <td><span class="badge blocked">&#8595; Down</span></td>
+                  <td><span class="btn sm ghost">Open</span></td>
+                </tr>
+                <tr>
+                  <td><b>Heritage Gardens</b></td><td>Coimbatore</td><td>3</td>
+                  <td><span style="color:var(--teal);font-weight:700;">71%</span></td>
+                  <td class="mono">&#8377;12.9L</td>
+                  <td><span class="badge confirmed">&#8593; Up</span></td>
+                  <td><span class="btn sm ghost">Open</span></td>
+                </tr>
+                <tr>
+                  <td><b>Royal Heritage Hall</b></td><td>Chennai</td><td>3</td>
+                  <td><span style="color:var(--teal);font-weight:700;">64%</span></td>
+                  <td class="mono">&#8377;9.6L</td>
+                  <td><span class="badge neutral">&rarr; Flat</span></td>
+                  <td><span class="btn sm ghost">Open</span></td>
+                </tr>
+              </table>
+            </div>
+ 
+            <div class="note-box">
+              <b>Sapphire Banquets (Hubli) is flagged:</b> occupancy is 33 points below group average, and revenue dropped 18% vs. last month. Drill in to check local demand-intelligence alerts — Hubli's regional festival calendar may differ from Bangalore's.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ============ RBAC PERMISSION-MATRIX EDITOR ============ -->
+    <section class="screen-section" id="screen-rbac" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Core Module &middot; MOD-RBAC-08</div>
+        <h1 class="main-title">Staff &amp; RBAC Permission-Matrix Editor</h1>
+        <p class="main-desc">Where the Venue Owner defines exactly what each role can see and do — a checkbox grid, not hardcoded logic, so permissions can be adjusted without a code change.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/grand-vista/settings/roles</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left"><div class="topbar-title">Roles &amp; Permissions</div></div>
+            <div class="topbar-right"><div class="btn sm ghost">+ Add custom role</div><div class="btn sm primary">Save changes</div></div>
+          </div>
+          <div class="app-content">
+            <div class="card" style="overflow-x:auto;">
+              <table class="data-table" style="min-width:760px;">
+                <tr>
+                  <th style="min-width:160px;">Permission</th>
+                  <th style="text-align:center;">Manager</th>
+                  <th style="text-align:center;">Sales Agent</th>
+                  <th style="text-align:center;">Accounts</th>
+                  <th style="text-align:center;">Front Desk</th>
+                  <th style="text-align:center;">Vendor Coordinator</th>
+                </tr>
+ 
+                <tr><td colspan="6" style="background:#F7F8FA;font-weight:700;font-size:11.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.04em;">Bookings</td></tr>
+                <tr>
+                  <td>Create inquiry / soft-lock</td>
+                  <td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9633;</td>
+                </tr>
+                <tr>
+                  <td>Confirm booking</td>
+                  <td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td>
+                </tr>
+                <tr>
+                  <td>Cancel / release booking</td>
+                  <td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td>
+                </tr>
+ 
+                <tr><td colspan="6" style="background:#F7F8FA;font-weight:700;font-size:11.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.04em;">Billing</td></tr>
+                <tr>
+                  <td>Generate invoice</td>
+                  <td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td>
+                </tr>
+                <tr>
+                  <td>Issue refund</td>
+                  <td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td>
+                </tr>
+ 
+                <tr><td colspan="6" style="background:#F7F8FA;font-weight:700;font-size:11.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.04em;">Vendor &amp; Event Ops</td></tr>
+                <tr>
+                  <td>View assigned job &amp; call sheet</td>
+                  <td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9989;</td>
+                </tr>
+                <tr>
+                  <td>Update vendor delivery status</td>
+                  <td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9989;</td>
+                </tr>
+ 
+                <tr><td colspan="6" style="background:#F7F8FA;font-weight:700;font-size:11.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.04em;">Staff &amp; Settings</td></tr>
+                <tr>
+                  <td>Add / remove staff</td>
+                  <td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td>
+                </tr>
+                <tr>
+                  <td>Edit pricing / packages</td>
+                  <td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td>
+                </tr>
+                <tr>
+                  <td>View reports &amp; analytics</td>
+                  <td style="text-align:center;">&#9989;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td><td style="text-align:center;">&#9633;</td>
+                </tr>
+              </table>
+            </div>
+ 
+            <div class="section-block">
+              <h3>Editing: Sales Agent role</h3>
+              <div class="sub">Click any role column header to open its full editable checklist. Shown below: Sales Agent.</div>
+              <div class="card" style="max-width:420px;">
+                <div style="font-weight:700;font-size:13px;margin-bottom:10px;">Sales Agent — 6 staff assigned</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                  <span>Create inquiry / soft-lock</span>
+                  <div style="width:34px;height:18px;border-radius:10px;background:var(--teal);position:relative;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;"></div></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                  <span>Confirm booking</span>
+                  <div style="width:34px;height:18px;border-radius:10px;background:#D1D5DB;position:relative;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;"></div></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;">
+                  <span>View CRM &amp; leads</span>
+                  <div style="width:34px;height:18px;border-radius:10px;background:var(--teal);position:relative;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;"></div></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:12.5px;">
+                  <span>Issue refund</span>
+                  <div style="width:34px;height:18px;border-radius:10px;background:#D1D5DB;position:relative;"><div style="width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;"></div></div>
+                </div>
+              </div>
+            </div>
+ 
+            <div class="note-box">
+              <b>Enforcement reminder:</b> this matrix isn't just a UI toggle — every permission here corresponds to a server-side check on the relevant API route. A Sales Agent's token being denied "Confirm booking" must be enforced in the backend, not just hidden in the frontend, so a disabled action can never be triggered by a direct API call either.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ============ CALENDAR / SOFT-LOCK ============ -->
+    <section class="screen-section" id="screen-calendar" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Core Workflow &middot; MOD-BOOKING-01</div>
+        <h1 class="main-title">Booking Calendar &amp; Soft-Lock</h1>
+        <p class="main-desc">The heart of the product. Every hall's availability across the month, color-coded by state, with the soft-lock action panel shown for a date in progress.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/grand-vista/calendar</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left">
+              <div class="topbar-title">June 2026</div>
+              <span class="badge neutral">All halls</span>
+            </div>
+            <div class="topbar-right">
+              <div class="btn sm ghost">&larr; May</div>
+              <div class="btn sm ghost">Jul &rarr;</div>
+            </div>
+          </div>
+          <div class="app-content">
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:18px;">
+              <div style="text-align:center;font-size:10.5px;color:var(--text-faint);font-weight:600;">SUN</div>
+              <div style="text-align:center;font-size:10.5px;color:var(--text-faint);font-weight:600;">MON</div>
+              <div style="text-align:center;font-size:10.5px;color:var(--text-faint);font-weight:600;">TUE</div>
+              <div style="text-align:center;font-size:10.5px;color:var(--text-faint);font-weight:600;">WED</div>
+              <div style="text-align:center;font-size:10.5px;color:var(--text-faint);font-weight:600;">THU</div>
+              <div style="text-align:center;font-size:10.5px;color:var(--text-faint);font-weight:600;">FRI</div>
+              <div style="text-align:center;font-size:10.5px;color:var(--text-faint);font-weight:600;">SAT</div>
+ 
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">1</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">2</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">3</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">4</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">5</div>
+              <div style="height:64px;border:1px solid var(--teal);background:var(--teal-bg);border-radius:6px;padding:5px;font-size:11px;">6<div style="font-size:9px;font-weight:700;color:var(--teal);margin-top:3px;">Hall A booked</div></div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">7</div>
+ 
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">8</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">9</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">10</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">11</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">12</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">13</div>
+              <div style="height:64px;border:2px solid var(--amber);background:var(--amber-bg);border-radius:6px;padding:5px;font-size:11px;font-weight:700;position:relative;">14<div style="font-size:9px;font-weight:700;color:var(--amber);margin-top:3px;">Hall B &middot; soft lock</div></div>
+ 
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">15</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">16</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">17</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">18</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">19</div>
+              <div style="height:64px;border:1px solid var(--blue);background:var(--blue-bg);border-radius:6px;padding:5px;font-size:11px;">20<div style="font-size:9px;font-weight:700;color:var(--blue);margin-top:3px;">2 inquiries</div></div>
+              <div style="height:64px;border:2px solid #C9A33D;background:#FBF4DC;border-radius:6px;padding:5px;font-size:11px;font-weight:700;">21<div style="font-size:9px;font-weight:700;color:#9C7A1F;margin-top:3px;">&#9733; Long weekend</div></div>
+ 
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">22</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">23</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">24</div>
+              <div style="height:64px;border:2px solid var(--navy);border-radius:6px;padding:5px;font-size:11px;font-weight:700;background:#EEF1F4;">25<div style="font-size:9px;font-weight:700;color:var(--navy);margin-top:3px;">Today</div></div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">26</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">27</div>
+              <div style="height:64px;border:1px solid var(--line);border-radius:6px;padding:5px;font-size:11px;color:var(--text-faint);">28</div>
+            </div>
+ 
+            <div class="section-block" style="margin-top:0;">
+              <h3>Soft-lock action panel — 14 Aug, Hall B</h3>
+              <div class="sub">What staff see when they click a soft-locked date to manage it.</div>
+              <div class="card" style="max-width:520px;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+                  <div>
+                    <div style="font-weight:700;font-size:14px;">Vikram &amp; Anita — Wedding</div>
+                    <div style="font-size:11.5px;color:var(--text-faint);">Hall B &middot; Full day &middot; 250 guests</div>
+                  </div>
+                  <span class="badge softlock">Soft Lock</span>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;margin-bottom:14px;">
+                  <div><span style="color:var(--text-faint);">Locked by</span><br><b>Arjun K. (Sales)</b></div>
+                  <div><span style="color:var(--text-faint);">Locked at</span><br><b class="mono">24 Jun, 2:15 PM</b></div>
+                  <div><span style="color:var(--text-faint);">Expires in</span><br><b style="color:var(--amber);">6h 12m</b></div>
+                  <div><span style="color:var(--text-faint);">Advance required</span><br><b class="mono">&#8377;50,000</b></div>
+                </div>
+                <div style="display:flex;gap:8px;">
+                  <div class="btn sm teal" style="flex:1;justify-content:center;">Confirm booking</div>
+                  <div class="btn sm ghost" style="flex:1;justify-content:center;">Extend lock</div>
+                  <div class="btn sm ghost" style="flex:1;justify-content:center;color:var(--red);border-color:#F0C9C9;">Release</div>
+                </div>
+              </div>
+ 
+              <div class="note-box">
+                <b>Concurrency rule:</b> if a second staff member tries to soft-lock Hall B for 14 Aug while this lock is active, the system blocks it immediately with "Already held by Arjun K., expires in 6h 12m" — enforced at the database level (unique constraint on hall+date+slot for active locks), not just in the UI.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ============ 2D LAYOUT ============ -->
+    <section class="screen-section" id="screen-layout2d" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Core Workflow &middot; MOD-LAYOUT-03</div>
+        <h1 class="main-title">2D Layout Designer</h1>
+        <p class="main-desc">Drag-drop canvas for the venue manager to arrange tables, stage, and dance floor — saved as structured data, not an image, so it's reusable and the capacity counter updates live.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/grand-vista/layouts/hall-a/edit</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left"><div class="topbar-title">Hall A — Round tables, 250 guests</div></div>
+            <div class="topbar-right"><div class="btn sm ghost">Save as template</div><div class="btn sm primary">Save layout</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:170px 1fr 190px;min-height:420px;">
+            <div class="app-sidebar">
+              <div class="nav-section-label" style="color:var(--text-faint);padding-left:2px;">Elements</div>
+              <div class="s-item active">&#9711; Round table</div>
+              <div class="s-item">&#9633; Rect table</div>
+              <div class="s-item">&#9650; Stage</div>
+              <div class="s-item">&#9670; Dance floor</div>
+              <div class="s-item">&#8862; Buffet counter</div>
+              <div class="s-item">&#128682; Entry/Exit</div>
+            </div>
+ 
+            <div style="background:#F2F4F6;position:relative;padding:18px;">
+              <div style="position:absolute;inset:18px;border:1.5px dashed #C7CDD5;border-radius:8px;"></div>
+              <div style="position:absolute;top:30px;left:50%;transform:translateX(-50%);width:140px;height:46px;background:var(--purple-bg);border:1.5px solid var(--purple);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:var(--purple);">STAGE</div>
+              <div style="position:absolute;top:90px;left:50%;transform:translateX(-50%);width:110px;height:70px;background:var(--blue-bg);border:1.5px solid var(--blue);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--blue);">DANCE<br>FLOOR</div>
+ 
+              <div style="position:absolute;top:185px;left:40px;width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;">T1<br>10</div>
+              <div style="position:absolute;top:185px;left:110px;width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;">T2<br>10</div>
+              <div style="position:absolute;top:185px;left:180px;width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;">T3<br>10</div>
+              <div style="position:absolute;top:185px;left:250px;width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid var(--teal);box-shadow:0 0 0 3px var(--teal-bg);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;">T4<br>10</div>
+              <div style="position:absolute;top:185px;left:320px;width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;">T5<br>10</div>
+ 
+              <div style="position:absolute;top:255px;left:40px;width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;">T6<br>10</div>
+              <div style="position:absolute;top:255px;left:110px;width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;">T7<br>10</div>
+              <div style="position:absolute;top:255px;left:180px;width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;">T8<br>10</div>
+              <div style="position:absolute;top:255px;left:250px;width:48px;height:48px;border-radius:50%;background:#fff;border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;">T9<br>10</div>
+              <div style="position:absolute;top:255px;left:320px;width:48px;height:48px;border-radius:50%;background:#fff;border:2px dashed var(--text-faint);display:flex;align-items:center;justify-content:center;font-size:8.5px;color:var(--text-faint);">+ Add</div>
+ 
+              <div style="position:absolute;bottom:18px;left:40px;width:330px;height:30px;background:#F1EBDC;border:1.5px solid #C9A862;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#8A6A2E;">BUFFET COUNTER</div>
+ 
+              <div style="position:absolute;top:235px;left:250px;background:var(--navy);color:#fff;font-size:10px;padding:4px 8px;border-radius:5px;white-space:nowrap;">T4 selected — 10 seats</div>
+            </div>
+ 
+            <div class="app-sidebar" style="border-left:1px solid var(--line);border-right:none;">
+              <div class="nav-section-label" style="color:var(--text-faint);padding-left:2px;">Table T4</div>
+              <div style="font-size:11.5px;color:var(--text-soft);margin-bottom:4px;">Seats</div>
+              <div style="border:1px solid var(--line);border-radius:6px;padding:7px 10px;font-size:12.5px;margin-bottom:10px;background:#fff;">10</div>
+              <div style="font-size:11.5px;color:var(--text-soft);margin-bottom:4px;">Label</div>
+              <div style="border:1px solid var(--line);border-radius:6px;padding:7px 10px;font-size:12.5px;margin-bottom:14px;background:#fff;">T4</div>
+              <div class="btn sm ghost" style="width:100%;justify-content:center;color:var(--red);border-color:#F0C9C9;">Remove table</div>
+ 
+              <div class="nav-section-label" style="color:var(--text-faint);padding-left:2px;margin-top:18px;">Capacity</div>
+              <div class="card" style="padding:10px;">
+                <div style="font-size:22px;font-weight:700;">240</div>
+                <div style="font-size:11px;color:var(--text-faint);">seats placed / 250 target</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="note-box">
+        <b>Customer-facing preview:</b> the customer's view of this same layout is read-only — no element panel, no drag handles — just the rendered arrangement plus a "Request changes" button that creates a note back to the venue manager.
+      </div>
+    </section>
+ 
+    <!-- ============ 3D VISUALIZATION ============ -->
+    <section class="screen-section" id="screen-layout3d" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Core Workflow &middot; MOD-LAYOUT3D-04 (Level 1)</div>
+        <h1 class="main-title">3D Visualization</h1>
+        <p class="main-desc">Generated from the same 2D layout JSON — same tables, same positions, rendered as simple extruded 3D shapes from an angled camera. Not photorealistic; this is the "helps a customer picture it" tier, not a per-venue 3D scan.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/grand-vista/layouts/hall-a/3d</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left"><div class="topbar-title">Hall A — 3D preview</div></div>
+            <div class="topbar-right"><div class="badge neutral">Level 1 &middot; auto-generated</div></div>
+          </div>
+          <div style="background:linear-gradient(180deg,#E8ECF0 0%, #D7DEE5 100%);min-height:380px;position:relative;overflow:hidden;">
+            <div style="position:absolute;left:50%;top:60%;transform:translate(-50%,-50%) rotateX(55deg);width:420px;height:280px;background:#EFE7D6;border:1px solid #D8CDB3;box-shadow:0 30px 60px rgba(0,0,0,0.15);"></div>
+ 
+            <div style="position:absolute;top:70px;left:50%;transform:translateX(-50%);width:130px;height:50px;background:linear-gradient(180deg,#8E7CC3,var(--purple));border-radius:3px;box-shadow:0 8px 0 #4F4373, 0 14px 18px rgba(0,0,0,0.2);"></div>
+            <div style="position:absolute;top:122px;left:50%;transform:translateX(-50%);font-size:9px;color:#fff;font-weight:700;width:130px;text-align:center;">STAGE</div>
+ 
+            <div style="position:absolute;top:135px;left:50%;transform:translateX(-58%);width:100px;height:60px;background:linear-gradient(180deg,#6B97C9,var(--blue));border-radius:3px;box-shadow:0 6px 0 #244A6B;"></div>
+ 
+            <div style="position:absolute;top:215px;left:90px;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #D8DDE3);box-shadow:0 6px 0 #B7BEC7, 0 10px 14px rgba(0,0,0,0.15);"></div>
+            <div style="position:absolute;top:215px;left:155px;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #D8DDE3);box-shadow:0 6px 0 #B7BEC7, 0 10px 14px rgba(0,0,0,0.15);"></div>
+            <div style="position:absolute;top:215px;left:220px;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #D8DDE3);box-shadow:0 6px 0 #B7BEC7, 0 10px 14px rgba(0,0,0,0.15);"></div>
+            <div style="position:absolute;top:215px;left:285px;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #2D7D6E);box-shadow:0 6px 0 #1B4A41, 0 10px 14px rgba(0,0,0,0.15);"></div>
+ 
+            <div style="position:absolute;top:275px;left:90px;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #D8DDE3);box-shadow:0 6px 0 #B7BEC7, 0 10px 14px rgba(0,0,0,0.15);"></div>
+            <div style="position:absolute;top:275px;left:155px;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #D8DDE3);box-shadow:0 6px 0 #B7BEC7, 0 10px 14px rgba(0,0,0,0.15);"></div>
+            <div style="position:absolute;top:275px;left:220px;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #D8DDE3);box-shadow:0 6px 0 #B7BEC7, 0 10px 14px rgba(0,0,0,0.15);"></div>
+            <div style="position:absolute;top:275px;left:285px;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #D8DDE3);box-shadow:0 6px 0 #B7BEC7, 0 10px 14px rgba(0,0,0,0.15);"></div>
+ 
+            <div style="position:absolute;bottom:16px;right:16px;background:rgba(30,42,56,0.85);border-radius:8px;padding:8px 10px;display:flex;gap:8px;">
+              <span style="color:#fff;font-size:11px;">&#8635; Orbit</span>
+              <span style="color:#fff;font-size:11px;">&#128269; Zoom</span>
+              <span style="color:#fff;font-size:11px;">&#9651; Top view</span>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="note-box">
+        <b>Effort note (from our earlier estimate):</b> this Level-1 view is roughly +2&ndash;3 weeks of work on top of a working 2D editor, using react-three-fiber to extrude the same layout JSON into simple 3D shapes. True photorealistic per-venue models (Level 3) are a separate, much larger effort (3&ndash;4 months per venue, usually needing a 3D artist) &mdash; not recommended for the core SaaS product.
+      </div>
+    </section>
+ 
+    <!-- ============ DEMAND INTELLIGENCE ============ -->
+    <section class="screen-section" id="screen-intel" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Core Workflow &middot; MOD-INTEL-13 &middot; Pro tier</div>
+        <h1 class="main-title">Demand Intelligence Dashboard</h1>
+        <p class="main-desc">The India-specific differentiator — muhurat dates, inauspicious periods, festivals, and long-weekend alerts overlaid on demand data, with pricing nudges for the venue manager.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/grand-vista/intelligence</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left"><div class="topbar-title">Demand Intelligence</div><span class="badge neutral">Region: Karnataka</span></div>
+          </div>
+          <div class="app-content">
+ 
+            <div class="section-block" style="margin-top:0;">
+              <h3>Upcoming alerts</h3>
+              <div class="card" style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-left:3px solid #C9A33D;">
+                <div>
+                  <span class="badge" style="background:#FBF4DC;color:#9C7A1F;">&#9733; Long weekend</span>
+                  <b style="margin-left:8px;">Aug 14&ndash;16</b> — Independence Day weekend
+                  <div style="font-size:11.5px;color:var(--text-faint);margin-top:3px;">3 of 5 comparable venues in Bangalore already 70%+ booked. Hall B and C still open.</div>
+                </div>
+                <div class="btn sm primary">Review pricing</div>
+              </div>
+              <div class="card" style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-left:3px solid var(--teal);">
+                <div>
+                  <span class="badge confirmed">Muhurat date</span>
+                  <b style="margin-left:8px;">Dec 8</b> — Highly auspicious wedding date
+                  <div style="font-size:11.5px;color:var(--text-faint);margin-top:3px;">Still unbooked at 165 days out — historically these sell by 90 days. Unusual; check pricing or distribution.</div>
+                </div>
+                <div class="btn sm primary">Review pricing</div>
+              </div>
+              <div class="card" style="display:flex;justify-content:space-between;align-items:center;border-left:3px solid var(--red);">
+                <div>
+                  <span class="badge blocked">Demand dip</span>
+                  <b style="margin-left:8px;">Jul 17 &ndash; Aug 16</b> — Ashada Masa (low wedding demand)
+                  <div style="font-size:11.5px;color:var(--text-faint);margin-top:3px;">Wedding bookings typically drop ~70% in this window. Consider promoting corporate/birthday packages.</div>
+                </div>
+                <div class="btn sm ghost">View suggestions</div>
+              </div>
+            </div>
+ 
+            <div class="section-block">
+              <h3>Calendar with demand overlay</h3>
+              <div class="sub">Same calendar as the booking view, layered with cultural/demand signals.</div>
+              <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px;">
+                <span class="legend-chip"><span class="sw" style="background:var(--teal)"></span>Muhurat / auspicious</span>
+                <span class="legend-chip"><span class="sw" style="background:var(--red)"></span>Inauspicious period</span>
+                <span class="legend-chip"><span class="sw" style="background:#C9A33D"></span>Long weekend</span>
+                <span class="legend-chip"><span class="sw" style="background:var(--blue)"></span>Festival</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;">
+                <div style="height:38px;border-radius:5px;background:#F1F2F4;"></div>
+                <div style="height:38px;border-radius:5px;background:#F1F2F4;"></div>
+                <div style="height:38px;border-radius:5px;background:var(--red-bg);border:1px solid var(--red);"></div>
+                <div style="height:38px;border-radius:5px;background:var(--red-bg);border:1px solid var(--red);"></div>
+                <div style="height:38px;border-radius:5px;background:#F1F2F4;"></div>
+                <div style="height:38px;border-radius:5px;background:var(--teal-bg);border:1px solid var(--teal);"></div>
+                <div style="height:38px;border-radius:5px;background:#F1F2F4;"></div>
+                <div style="height:38px;border-radius:5px;background:#F1F2F4;"></div>
+                <div style="height:38px;border-radius:5px;background:#FBF4DC;border:1px solid #C9A33D;"></div>
+                <div style="height:38px;border-radius:5px;background:#FBF4DC;border:1px solid #C9A33D;"></div>
+                <div style="height:38px;border-radius:5px;background:#F1F2F4;"></div>
+                <div style="height:38px;border-radius:5px;background:#F1F2F4;"></div>
+                <div style="height:38px;border-radius:5px;background:var(--blue-bg);border:1px solid var(--blue);"></div>
+                <div style="height:38px;border-radius:5px;background:#F1F2F4;"></div>
+              </div>
+            </div>
+ 
+            <div class="section-block">
+              <h3>Weekday vs weekend occupancy</h3>
+              <div class="card">
+                <div style="display:flex;align-items:flex-end;gap:14px;height:90px;">
+                  <div style="flex:1;text-align:center;"><div style="height:30%;background:#D7DEE5;border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Mon</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:22%;background:#D7DEE5;border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Tue</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:25%;background:#D7DEE5;border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Wed</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:35%;background:#D7DEE5;border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Thu</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:70%;background:var(--amber);border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Fri</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:95%;background:var(--teal);border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Sat</div></div>
+                  <div style="flex:1;text-align:center;"><div style="height:88%;background:var(--teal);border-radius:4px 4px 0 0;"></div><div style="font-size:10px;margin-top:4px;color:var(--text-faint);">Sun</div></div>
+                </div>
+                <div class="note-box" style="margin-top:14px;">
+                  <b>Pricing nudge:</b> your Tue&ndash;Wed occupancy is running 23% vs. 91% on weekends. Consider a weekday discount tier or a corporate-package push for these days.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ============ CUSTOMER PORTAL ============ -->
+    <section class="screen-section" id="screen-customer" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">Customer Side &middot; PER-CUSTOMER</div>
+        <h1 class="main-title">Customer Portal</h1>
+        <p class="main-desc">What the event host sees after logging in — booking status, layout preview, payments, and contract. Mobile-first, since most customers will check this on a phone.</p>
+      </div>
+ 
+      <div class="screen-frame" style="max-width:380px;">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">app.venueos.in/my-booking</div>
+        </div>
+        <div class="frame-body" style="padding:0;">
+          <div class="topbar">
+            <div class="topbar-left"><div class="topbar-title">My Booking</div></div>
+            <div class="topbar-right"><div class="icon-btn">&#128276;<span class="ping"></span></div></div>
+          </div>
+          <div style="padding:16px;">
+            <div class="card" style="margin-bottom:14px;">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div>
+                  <div style="font-weight:700;font-size:14.5px;">Grand Vista Convention</div>
+                  <div style="font-size:11.5px;color:var(--text-faint);">Hall B &middot; 14 Aug 2026</div>
+                </div>
+                <span class="badge softlock">Soft Hold</span>
+              </div>
+              <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--text-soft);">
+                Your date is held until <b style="color:var(--amber);">25 Jun, 8:30 PM</b>. Pay the advance to confirm.
+              </div>
+              <div class="btn teal" style="width:100%;justify-content:center;margin-top:12px;">Pay advance &#8377;50,000</div>
+            </div>
+ 
+            <div style="display:flex;gap:8px;margin-bottom:14px;">
+              <div class="card" style="flex:1;text-align:center;padding:12px;">
+                <div style="font-size:18px;">&#128722;</div>
+                <div style="font-size:11px;font-weight:600;margin-top:4px;">Layout</div>
+              </div>
+              <div class="card" style="flex:1;text-align:center;padding:12px;">
+                <div style="font-size:18px;">&#128196;</div>
+                <div style="font-size:11px;font-weight:600;margin-top:4px;">Contract</div>
+              </div>
+              <div class="card" style="flex:1;text-align:center;padding:12px;">
+                <div style="font-size:18px;">&#128179;</div>
+                <div style="font-size:11px;font-weight:600;margin-top:4px;">Invoices</div>
+              </div>
+            </div>
+ 
+            <div style="font-size:11.5px;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px;">Timeline</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--teal);margin-top:4px;flex:none;"></div>
+                <div style="font-size:12px;">Inquiry submitted <span style="color:var(--text-faint);">— 22 Jun</span></div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--teal);margin-top:4px;flex:none;"></div>
+                <div style="font-size:12px;">Date soft-held by venue <span style="color:var(--text-faint);">— 24 Jun</span></div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--line);margin-top:4px;flex:none;"></div>
+                <div style="font-size:12px;color:var(--text-faint);">Advance payment</div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--line);margin-top:4px;flex:none;"></div>
+                <div style="font-size:12px;color:var(--text-faint);">Booking confirmed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="note-box">
+        <b>PER-COCUSTOMER:</b> a family member added to this booking sees the identical screen, except the "Pay advance" button is replaced with "Awaiting payment from [primary customer]" — view and approve rights only, no payment action, per the requirements doc.
+      </div>
+    </section>
+ 
+    <!-- ============ VENDOR PORTAL ============ -->
+    <section class="screen-section" id="screen-vendor" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">External &middot; PER-VENDOR</div>
+        <h1 class="main-title">Vendor Portal</h1>
+        <p class="main-desc">Narrow view for caterers, decorators, photographers — only their own assigned jobs and requirements, nothing about pricing or other vendors.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">vendor.venueos.in/spice-route-catering</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left"><div class="topbar-title">Spice Route Catering</div></div>
+            <div class="topbar-right"><div class="avatar">SR</div></div>
+          </div>
+          <div class="app-content">
+            <div style="font-weight:700;font-size:13.5px;margin-bottom:12px;">Upcoming assignments</div>
+            <div class="card" style="margin-bottom:10px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <b>Sharma–Iyer Wedding</b>
+                  <div style="font-size:11.5px;color:var(--text-faint);margin-top:2px;">Grand Vista &middot; Hall A &middot; 25 Jun</div>
+                </div>
+                <span class="badge confirmed">Confirmed</span>
+              </div>
+              <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div><span style="color:var(--text-faint);">Guest count</span><br><b>350</b></div>
+                <div><span style="color:var(--text-faint);">Setup time</span><br><b>6:00 AM</b></div>
+                <div><span style="color:var(--text-faint);">Menu finalized</span><br><b style="color:var(--teal);">Yes</b></div>
+                <div><span style="color:var(--text-faint);">Dietary notes</span><br><b>80 Jain meals</b></div>
+              </div>
+            </div>
+            <div class="card">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <b>Reddy Family Wedding</b>
+                  <div style="font-size:11.5px;color:var(--text-faint);margin-top:2px;">Grand Vista &middot; Hall A &middot; 22 Sep</div>
+                </div>
+                <span class="badge softlock">Tentative</span>
+              </div>
+              <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:12px;color:var(--text-faint);">
+                Menu finalization pending — guest count to be confirmed by 15 Sep.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ============ REFERRAL PORTAL ============ -->
+    <section class="screen-section" id="screen-referral" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">External &middot; PER-REFERRAL</div>
+        <h1 class="main-title">Referral Partner Portal</h1>
+        <p class="main-desc">For wedding planners/agents — their referred bookings and commission payout status, nothing about the venue's other business.</p>
+      </div>
+ 
+      <div class="screen-frame">
+        <div class="frame-bar">
+          <div class="frame-dots"><span></span><span></span><span></span></div>
+          <div class="frame-url">partners.venueos.in/dreamknot-weddings</div>
+        </div>
+        <div class="frame-body">
+          <div class="topbar">
+            <div class="topbar-left"><div class="topbar-title">DreamKnot Weddings</div></div>
+            <div class="topbar-right"><div class="avatar">DK</div></div>
+          </div>
+          <div class="app-content">
+            <div class="kpi-row">
+              <div class="kpi"><div class="kpi-label">Referred this year</div><div class="kpi-value">11</div></div>
+              <div class="kpi"><div class="kpi-label">Converted</div><div class="kpi-value">7</div></div>
+              <div class="kpi"><div class="kpi-label">Commission earned</div><div class="kpi-value">&#8377;84,000</div></div>
+              <div class="kpi"><div class="kpi-label">Pending payout</div><div class="kpi-value" style="color:var(--amber);">&#8377;18,000</div></div>
+            </div>
+            <div class="card">
+              <table class="data-table">
+                <tr><th>Customer</th><th>Venue</th><th>Booking value</th><th>Commission</th><th>Status</th></tr>
+                <tr><td>Vikram &amp; Anita</td><td>Grand Vista</td><td class="mono">&#8377;6,00,000</td><td class="mono">&#8377;18,000</td><td><span class="badge softlock">Pending</span></td></tr>
+                <tr><td>Reddy Family</td><td>Grand Vista</td><td class="mono">&#8377;9,50,000</td><td class="mono">&#8377;28,500</td><td><span class="badge confirmed">Paid</span></td></tr>
+                <tr><td>Menon Family</td><td>Sapphire Lawns</td><td class="mono">&#8377;4,20,000</td><td class="mono">&#8377;12,600</td><td><span class="badge confirmed">Paid</span></td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ============ NOTIFICATIONS ============ -->
+    <section class="screen-section" id="screen-notifications" style="display:none;">
+      <div class="main-header">
+        <div class="main-eyebrow">System &middot; MOD-NOTIFY-09</div>
+        <h1 class="main-title">Notifications — Across Personas</h1>
+        <p class="main-desc">What gets sent, to whom, and through which channel, at each stage of the booking lifecycle.</p>
+      </div>
+ 
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div class="card">
+          <div style="font-weight:700;font-size:13px;margin-bottom:12px;">&#128241; WhatsApp — to Customer</div>
+          <div style="background:#E9F6E8;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;">
+            Hi Vikram, your date <b>14 Aug</b> at Grand Vista (Hall B) is held for you until <b>8:30 PM today</b>. Pay the advance of &#8377;50,000 to confirm: [Pay now] — Grand Vista Convention
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-weight:700;font-size:13px;margin-bottom:12px;">&#128276; Internal alert — to Sales Agent</div>
+          <div style="background:var(--amber-bg);border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;color:#7A4A1F;">
+            <b>Soft-lock expiring soon:</b> Hall B, 14 Aug (Vikram &amp; Anita) — 1 hour remaining. Follow up or extend.
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-weight:700;font-size:13px;margin-bottom:12px;">&#9993; Email — to Customer (report-style)</div>
+          <div style="background:#F1F2F4;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;">
+            Subject: Your booking is confirmed — Grand Vista Convention<br><br>
+            Your invoice <span class="mono">INV-2026-0142</span> and signed contract are attached. We look forward to hosting your event on 14 Aug.
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-weight:700;font-size:13px;margin-bottom:12px;">&#128276; In-app — to Venue Manager</div>
+          <div style="background:var(--blue-bg);border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;color:#2A4D6E;">
+            <b>New inquiry:</b> Naveen S. wants Hall C on 5 Nov for 120 guests. Assigned to Arjun K.
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-weight:700;font-size:13px;margin-bottom:12px;">&#128241; SMS — to Vendor</div>
+          <div style="background:#F1F2F4;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;">
+            Spice Route: New job confirmed — Sharma-Iyer Wedding, Grand Vista Hall A, 25 Jun, 350 pax. View details in your portal.
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-weight:700;font-size:13px;margin-bottom:12px;">&#128276; Demand alert — to Venue Owner</div>
+          <div style="background:#FBF4DC;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;color:#7A5E1F;">
+            <b>&#9733; Long weekend approaching:</b> Aug 14-16 is filling fast across comparable venues. 2 of your halls are still open — consider reviewing pricing.
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+  </main>
+</div>
+ 
+<script>
+function showScreen(id){
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  document.querySelector(`[onclick="showScreen('${id}')"]`)?.classList.add('active');
+  document.querySelectorAll('.screen-section').forEach(el=>el.style.display='none');
+  const target = document.getElementById('screen-'+id);
+  if(target){ target.style.display='block'; window.scrollTo(0,0); }
+}
+ 
+// Super Admin sidebar sub-navigation (Overview / Tenants / Subscriptions / Feature Flags / Support Tickets / Platform Settings)
+document.querySelectorAll('.sa-tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.sa-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.sa-pane').forEach(p=>p.style.display='none');
+    const paneId = tab.getAttribute('data-sa');
+    const pane = document.getElementById(paneId);
+    if(pane){ pane.style.display='block'; }
+  });
+});
+ 
+// Venue Owner tab-strip (Overview / Bookings / Staff / Billing & Plan / Reports / Settings)
+document.querySelectorAll('.owner-tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.owner-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.owner-pane').forEach(p=>p.style.display='none');
+    const paneId = tab.getAttribute('data-owner');
+    const pane = document.getElementById(paneId);
+    if(pane){ pane.style.display='block'; }
+  });
+});
+ 
+// Venue Manager tab-strip (Overview / Bookings / Staff / Billing & Plan / Reports / Settings)
+document.querySelectorAll('.manager-tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.manager-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.manager-pane').forEach(p=>p.style.display='none');
+    const paneId = tab.getAttribute('data-manager');
+    const pane = document.getElementById(paneId);
+    if(pane){ pane.style.display='block'; }
+  });
+});
+ 
+window.addEventListener('DOMContentLoaded', ()=> showScreen('login'));
+</script>
+ 
+</body>
+</html>
